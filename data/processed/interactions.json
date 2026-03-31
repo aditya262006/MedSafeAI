@@ -1,0 +1,308 @@
+[
+  {
+    "drug_a": "warfarin",
+    "drug_b": "aspirin",
+    "severity": "High",
+    "description": "Increased bleeding risk \u2014 both are anticoagulants/antiplatelet agents."
+  },
+  {
+    "drug_a": "warfarin",
+    "drug_b": "ibuprofen",
+    "severity": "High",
+    "description": "NSAIDs significantly increase anticoagulant effect of warfarin."
+  },
+  {
+    "drug_a": "warfarin",
+    "drug_b": "naproxen",
+    "severity": "High",
+    "description": "NSAIDs potentiate warfarin anticoagulation \u2014 serious bleeding risk."
+  },
+  {
+    "drug_a": "aspirin",
+    "drug_b": "ibuprofen",
+    "severity": "Medium",
+    "description": "Ibuprofen may antagonize aspirin's cardioprotective platelet effect."
+  },
+  {
+    "drug_a": "aspirin",
+    "drug_b": "naproxen",
+    "severity": "Medium",
+    "description": "Competitive inhibition of COX-1 \u2014 reduced antiplatelet effect."
+  },
+  {
+    "drug_a": "metformin",
+    "drug_b": "alcohol",
+    "severity": "Medium",
+    "description": "Increases risk of lactic acidosis."
+  },
+  {
+    "drug_a": "ssri",
+    "drug_b": "tramadol",
+    "severity": "High",
+    "description": "Risk of serotonin syndrome \u2014 potentially life-threatening."
+  },
+  {
+    "drug_a": "sertraline",
+    "drug_b": "tramadol",
+    "severity": "High",
+    "description": "Serotonin syndrome risk \u2014 agitation, hyperthermia, tachycardia."
+  },
+  {
+    "drug_a": "fluoxetine",
+    "drug_b": "tramadol",
+    "severity": "High",
+    "description": "Serotonin syndrome \u2014 concurrent use should be avoided."
+  },
+  {
+    "drug_a": "clopidogrel",
+    "drug_b": "omeprazole",
+    "severity": "Medium",
+    "description": "Omeprazole reduces clopidogrel antiplatelet effect via CYP2C19."
+  },
+  {
+    "drug_a": "simvastatin",
+    "drug_b": "clarithromycin",
+    "severity": "High",
+    "description": "CYP3A4 inhibition dramatically raises simvastatin levels \u2014 myopathy risk."
+  },
+  {
+    "drug_a": "atorvastatin",
+    "drug_b": "clarithromycin",
+    "severity": "High",
+    "description": "Increased statin concentration \u2014 risk of rhabdomyolysis."
+  },
+  {
+    "drug_a": "methotrexate",
+    "drug_b": "aspirin",
+    "severity": "High",
+    "description": "NSAIDs reduce renal clearance of methotrexate \u2014 severe toxicity."
+  },
+  {
+    "drug_a": "methotrexate",
+    "drug_b": "ibuprofen",
+    "severity": "High",
+    "description": "NSAID-methotrexate interaction \u2014 bone marrow suppression and nephrotoxicity."
+  },
+  {
+    "drug_a": "lithium",
+    "drug_b": "ibuprofen",
+    "severity": "High",
+    "description": "NSAIDs increase lithium levels \u2014 toxicity with narrow therapeutic window."
+  },
+  {
+    "drug_a": "lithium",
+    "drug_b": "naproxen",
+    "severity": "High",
+    "description": "NSAIDs reduce renal lithium clearance \u2014 elevated lithium toxicity."
+  },
+  {
+    "drug_a": "digoxin",
+    "drug_b": "amiodarone",
+    "severity": "High",
+    "description": "Amiodarone increases digoxin levels \u2014 risk of bradycardia and toxicity."
+  },
+  {
+    "drug_a": "diazepam",
+    "drug_b": "alcohol",
+    "severity": "High",
+    "description": "CNS depression potentiation \u2014 respiratory depression risk."
+  },
+  {
+    "drug_a": "alprazolam",
+    "drug_b": "alcohol",
+    "severity": "High",
+    "description": "Benzodiazepine + alcohol \u2014 severe CNS depression, overdose risk."
+  },
+  {
+    "drug_a": "oxycodone",
+    "drug_b": "diazepam",
+    "severity": "High",
+    "description": "Opioid + benzodiazepine \u2014 respiratory depression, coma, death risk."
+  },
+  {
+    "drug_a": "fentanyl",
+    "drug_b": "alprazolam",
+    "severity": "High",
+    "description": "FDA Black Box: opioid + benzo combination is extremely dangerous."
+  },
+  {
+    "drug_a": "sildenafil",
+    "drug_b": "nitroglycerin",
+    "severity": "High",
+    "description": "Severe hypotension \u2014 PDE5 inhibitors + nitrates are contraindicated."
+  },
+  {
+    "drug_a": "ciprofloxacin",
+    "drug_b": "theophylline",
+    "severity": "High",
+    "description": "Ciprofloxacin inhibits theophylline metabolism \u2014 toxicity risk."
+  },
+  {
+    "drug_a": "fluconazole",
+    "drug_b": "warfarin",
+    "severity": "High",
+    "description": "Azole antifungals potentiate warfarin \u2014 major bleeding risk."
+  },
+  {
+    "drug_a": "carbamazepine",
+    "drug_b": "oral contraceptives",
+    "severity": "High",
+    "description": "Enzyme induction reduces contraceptive efficacy."
+  },
+  {
+    "drug_a": "rifampin",
+    "drug_b": "warfarin",
+    "severity": "High",
+    "description": "Rifampin induces CYP enzymes \u2014 markedly reduces warfarin effect."
+  },
+  {
+    "drug_a": "metoprolol",
+    "drug_b": "verapamil",
+    "severity": "High",
+    "description": "Additive negative chronotropic/dromotropic effects \u2014 heart block risk."
+  },
+  {
+    "drug_a": "lisinopril",
+    "drug_b": "potassium",
+    "severity": "Medium",
+    "description": "ACE inhibitors + potassium supplements \u2014 hyperkalemia risk."
+  },
+  {
+    "drug_a": "prednisone",
+    "drug_b": "aspirin",
+    "severity": "Medium",
+    "description": "Increased GI ulceration/bleeding with corticosteroid + NSAID."
+  },
+  {
+    "drug_a": "quetiapine",
+    "drug_b": "alcohol",
+    "severity": "Medium",
+    "description": "Enhanced CNS depression \u2014 sedation, impaired motor function."
+  },
+  {
+    "drug_a": "phenytoin",
+    "drug_b": "warfarin",
+    "severity": "High",
+    "description": "Variable interaction \u2014 can increase or decrease anticoagulation."
+  },
+  {
+    "drug_a": "amiodarone",
+    "drug_b": "warfarin",
+    "severity": "High",
+    "description": "Amiodarone greatly increases warfarin anticoagulant effect."
+  },
+  {
+    "drug_a": "furosemide",
+    "drug_b": "gentamicin",
+    "severity": "High",
+    "description": "Loop diuretics + aminoglycosides \u2014 additive ototoxicity and nephrotoxicity."
+  },
+  {
+    "drug_a": "allopurinol",
+    "drug_b": "azathioprine",
+    "severity": "High",
+    "description": "Allopurinol inhibits xanthine oxidase \u2014 azathioprine toxicity."
+  },
+  {
+    "drug_a": "clopidogrel",
+    "drug_b": "aspirin",
+    "severity": "Low",
+    "description": "Dual antiplatelet therapy \u2014 used therapeutically but increases bleeding risk."
+  },
+  {
+    "drug_a": "losartan",
+    "drug_b": "potassium",
+    "severity": "Medium",
+    "description": "ARBs + potassium \u2014 hyperkalemia, especially in renal impairment."
+  },
+  {
+    "drug_a": "spironolactone",
+    "drug_b": "lisinopril",
+    "severity": "Medium",
+    "description": "Both cause potassium retention \u2014 significant hyperkalemia risk."
+  },
+  {
+    "drug_a": "valproic acid",
+    "drug_b": "aspirin",
+    "severity": "Medium",
+    "description": "Aspirin displaces valproate from protein binding \u2014 elevated free drug."
+  },
+  {
+    "drug_a": "tramadol",
+    "drug_b": "alcohol",
+    "severity": "High",
+    "description": "CNS depression \u2014 sedation, respiratory depression risk."
+  },
+  {
+    "drug_a": "metronidazole",
+    "drug_b": "alcohol",
+    "severity": "High",
+    "description": "Disulfiram-like reaction \u2014 severe flushing, nausea, vomiting."
+  },
+  {
+    "drug_a": "doxycycline",
+    "drug_b": "calcium carbonate",
+    "severity": "Medium",
+    "description": "Calcium chelates doxycycline \u2014 reduced antibiotic absorption."
+  },
+  {
+    "drug_a": "ciprofloxacin",
+    "drug_b": "calcium carbonate",
+    "severity": "Medium",
+    "description": "Calcium reduces fluoroquinolone absorption \u2014 take 2 hours apart."
+  },
+  {
+    "drug_a": "levothyroxine",
+    "drug_b": "calcium carbonate",
+    "severity": "Medium",
+    "description": "Calcium impairs levothyroxine absorption \u2014 separate by 4 hours."
+  },
+  {
+    "drug_a": "ferrous sulfate",
+    "drug_b": "levothyroxine",
+    "severity": "Medium",
+    "description": "Iron chelates levothyroxine \u2014 significant reduction in absorption."
+  },
+  {
+    "drug_a": "rivaroxaban",
+    "drug_b": "aspirin",
+    "severity": "High",
+    "description": "Increased bleeding risk \u2014 avoid unless prescribed together."
+  },
+  {
+    "drug_a": "apixaban",
+    "drug_b": "ibuprofen",
+    "severity": "High",
+    "description": "NOAC + NSAID \u2014 increased GI bleed risk."
+  },
+  {
+    "drug_a": "dabigatran",
+    "drug_b": "aspirin",
+    "severity": "High",
+    "description": "Anticoagulant + antiplatelet \u2014 substantially higher hemorrhage risk."
+  },
+  {
+    "drug_a": "gabapentin",
+    "drug_b": "oxycodone",
+    "severity": "High",
+    "description": "CNS depression and respiratory depression \u2014 FDA safety communication."
+  },
+  {
+    "drug_a": "olanzapine",
+    "drug_b": "alcohol",
+    "severity": "Medium",
+    "description": "Additive CNS depression \u2014 impaired cognition and motor function."
+  },
+  {
+    "drug_a": "amitriptyline",
+    "drug_b": "sertraline",
+    "severity": "Medium",
+    "description": "Additive serotonergic effects \u2014 serotonin syndrome risk."
+  },
+  {
+    "drug_a": "bupropion",
+    "drug_b": "tramadol",
+    "severity": "High",
+    "description": "Increased seizure risk \u2014 bupropion lowers seizure threshold."
+  }
+]

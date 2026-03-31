@@ -1,0 +1,1833 @@
+{
+  "aspirin": {
+    "side_effects": [
+      "stomach pain",
+      "heartburn",
+      "nausea",
+      "vomiting",
+      "stomach bleeding",
+      "tinnitus",
+      "dizziness",
+      "headache",
+      "allergic reaction",
+      "bruising"
+    ],
+    "severity_score": 5.5,
+    "serious_event_rate": 0.08,
+    "interactions": [
+      {
+        "with_drug": "warfarin",
+        "severity": "High",
+        "description": "Increased bleeding risk \u2014 both are anticoagulants/antiplatelet agents."
+      },
+      {
+        "with_drug": "ibuprofen",
+        "severity": "Medium",
+        "description": "Ibuprofen may antagonize aspirin's cardioprotective platelet effect."
+      },
+      {
+        "with_drug": "naproxen",
+        "severity": "Medium",
+        "description": "Competitive inhibition of COX-1 \u2014 reduced antiplatelet effect."
+      },
+      {
+        "with_drug": "methotrexate",
+        "severity": "High",
+        "description": "NSAIDs reduce renal clearance of methotrexate \u2014 severe toxicity."
+      },
+      {
+        "with_drug": "prednisone",
+        "severity": "Medium",
+        "description": "Increased GI ulceration/bleeding with corticosteroid + NSAID."
+      },
+      {
+        "with_drug": "clopidogrel",
+        "severity": "Low",
+        "description": "Dual antiplatelet therapy \u2014 used therapeutically but increases bleeding risk."
+      },
+      {
+        "with_drug": "valproic acid",
+        "severity": "Medium",
+        "description": "Aspirin displaces valproate from protein binding \u2014 elevated free drug."
+      },
+      {
+        "with_drug": "rivaroxaban",
+        "severity": "High",
+        "description": "Increased bleeding risk \u2014 avoid unless prescribed together."
+      },
+      {
+        "with_drug": "dabigatran",
+        "severity": "High",
+        "description": "Anticoagulant + antiplatelet \u2014 substantially higher hemorrhage risk."
+      }
+    ]
+  },
+  "ibuprofen": {
+    "side_effects": [
+      "stomach pain",
+      "heartburn",
+      "nausea",
+      "dizziness",
+      "headache",
+      "fluid retention",
+      "hypertension",
+      "GI bleeding",
+      "kidney damage",
+      "rash"
+    ],
+    "severity_score": 5.8,
+    "serious_event_rate": 0.09,
+    "interactions": [
+      {
+        "with_drug": "warfarin",
+        "severity": "High",
+        "description": "NSAIDs significantly increase anticoagulant effect of warfarin."
+      },
+      {
+        "with_drug": "aspirin",
+        "severity": "Medium",
+        "description": "Ibuprofen may antagonize aspirin's cardioprotective platelet effect."
+      },
+      {
+        "with_drug": "methotrexate",
+        "severity": "High",
+        "description": "NSAID-methotrexate interaction \u2014 bone marrow suppression and nephrotoxicity."
+      },
+      {
+        "with_drug": "lithium",
+        "severity": "High",
+        "description": "NSAIDs increase lithium levels \u2014 toxicity with narrow therapeutic window."
+      },
+      {
+        "with_drug": "apixaban",
+        "severity": "High",
+        "description": "NOAC + NSAID \u2014 increased GI bleed risk."
+      }
+    ]
+  },
+  "acetaminophen": {
+    "side_effects": [
+      "liver damage (overdose)",
+      "nausea",
+      "rash",
+      "headache",
+      "anemia"
+    ],
+    "severity_score": 4.0,
+    "serious_event_rate": 0.04,
+    "interactions": []
+  },
+  "paracetamol": {
+    "side_effects": [
+      "liver damage (overdose)",
+      "nausea",
+      "rash",
+      "headache"
+    ],
+    "severity_score": 3.8,
+    "serious_event_rate": 0.04,
+    "interactions": []
+  },
+  "warfarin": {
+    "side_effects": [
+      "bleeding",
+      "bruising",
+      "anemia",
+      "nausea",
+      "vomiting",
+      "diarrhea",
+      "skin necrosis",
+      "purple toe syndrome",
+      "hemorrhage",
+      "hair loss"
+    ],
+    "severity_score": 8.2,
+    "serious_event_rate": 0.28,
+    "interactions": [
+      {
+        "with_drug": "aspirin",
+        "severity": "High",
+        "description": "Increased bleeding risk \u2014 both are anticoagulants/antiplatelet agents."
+      },
+      {
+        "with_drug": "ibuprofen",
+        "severity": "High",
+        "description": "NSAIDs significantly increase anticoagulant effect of warfarin."
+      },
+      {
+        "with_drug": "naproxen",
+        "severity": "High",
+        "description": "NSAIDs potentiate warfarin anticoagulation \u2014 serious bleeding risk."
+      },
+      {
+        "with_drug": "fluconazole",
+        "severity": "High",
+        "description": "Azole antifungals potentiate warfarin \u2014 major bleeding risk."
+      },
+      {
+        "with_drug": "rifampin",
+        "severity": "High",
+        "description": "Rifampin induces CYP enzymes \u2014 markedly reduces warfarin effect."
+      },
+      {
+        "with_drug": "phenytoin",
+        "severity": "High",
+        "description": "Variable interaction \u2014 can increase or decrease anticoagulation."
+      },
+      {
+        "with_drug": "amiodarone",
+        "severity": "High",
+        "description": "Amiodarone greatly increases warfarin anticoagulant effect."
+      }
+    ]
+  },
+  "metformin": {
+    "side_effects": [
+      "nausea",
+      "vomiting",
+      "diarrhea",
+      "stomach pain",
+      "lactic acidosis",
+      "metallic taste",
+      "loss of appetite",
+      "vitamin B12 deficiency"
+    ],
+    "severity_score": 4.5,
+    "serious_event_rate": 0.06,
+    "interactions": [
+      {
+        "with_drug": "alcohol",
+        "severity": "Medium",
+        "description": "Increases risk of lactic acidosis."
+      }
+    ]
+  },
+  "atorvastatin": {
+    "side_effects": [
+      "muscle pain",
+      "muscle weakness",
+      "rhabdomyolysis",
+      "liver damage",
+      "nausea",
+      "diarrhea",
+      "headache",
+      "joint pain",
+      "memory problems"
+    ],
+    "severity_score": 5.0,
+    "serious_event_rate": 0.05,
+    "interactions": [
+      {
+        "with_drug": "clarithromycin",
+        "severity": "High",
+        "description": "Increased statin concentration \u2014 risk of rhabdomyolysis."
+      }
+    ]
+  },
+  "lisinopril": {
+    "side_effects": [
+      "dry cough",
+      "dizziness",
+      "headache",
+      "fatigue",
+      "hyperkalemia",
+      "angioedema",
+      "hypotension",
+      "kidney dysfunction",
+      "rash"
+    ],
+    "severity_score": 5.2,
+    "serious_event_rate": 0.07,
+    "interactions": [
+      {
+        "with_drug": "potassium",
+        "severity": "Medium",
+        "description": "ACE inhibitors + potassium supplements \u2014 hyperkalemia risk."
+      },
+      {
+        "with_drug": "spironolactone",
+        "severity": "Medium",
+        "description": "Both cause potassium retention \u2014 significant hyperkalemia risk."
+      }
+    ]
+  },
+  "omeprazole": {
+    "side_effects": [
+      "headache",
+      "nausea",
+      "diarrhea",
+      "stomach pain",
+      "vitamin B12 deficiency",
+      "magnesium deficiency",
+      "bone fractures"
+    ],
+    "severity_score": 3.8,
+    "serious_event_rate": 0.04,
+    "interactions": [
+      {
+        "with_drug": "clopidogrel",
+        "severity": "Medium",
+        "description": "Omeprazole reduces clopidogrel antiplatelet effect via CYP2C19."
+      }
+    ]
+  },
+  "amoxicillin": {
+    "side_effects": [
+      "diarrhea",
+      "nausea",
+      "skin rash",
+      "allergic reaction",
+      "vomiting",
+      "C. difficile",
+      "thrush",
+      "anaphylaxis"
+    ],
+    "severity_score": 4.2,
+    "serious_event_rate": 0.05,
+    "interactions": []
+  },
+  "metoprolol": {
+    "side_effects": [
+      "fatigue",
+      "dizziness",
+      "headache",
+      "slow heart rate",
+      "cold hands",
+      "shortness of breath",
+      "depression",
+      "sleep disturbances"
+    ],
+    "severity_score": 4.8,
+    "serious_event_rate": 0.06,
+    "interactions": [
+      {
+        "with_drug": "verapamil",
+        "severity": "High",
+        "description": "Additive negative chronotropic/dromotropic effects \u2014 heart block risk."
+      }
+    ]
+  },
+  "amlodipine": {
+    "side_effects": [
+      "swollen ankles",
+      "flushing",
+      "headache",
+      "dizziness",
+      "fatigue",
+      "nausea",
+      "palpitations",
+      "abdominal pain"
+    ],
+    "severity_score": 4.0,
+    "serious_event_rate": 0.04,
+    "interactions": []
+  },
+  "simvastatin": {
+    "side_effects": [
+      "muscle pain",
+      "muscle weakness",
+      "rhabdomyolysis",
+      "liver damage",
+      "nausea",
+      "headache",
+      "constipation",
+      "abdominal pain"
+    ],
+    "severity_score": 5.2,
+    "serious_event_rate": 0.06,
+    "interactions": [
+      {
+        "with_drug": "clarithromycin",
+        "severity": "High",
+        "description": "CYP3A4 inhibition dramatically raises simvastatin levels \u2014 myopathy risk."
+      }
+    ]
+  },
+  "losartan": {
+    "side_effects": [
+      "dizziness",
+      "hypotension",
+      "hyperkalemia",
+      "kidney dysfunction",
+      "upper respiratory infection",
+      "back pain",
+      "diarrhea"
+    ],
+    "severity_score": 4.0,
+    "serious_event_rate": 0.04,
+    "interactions": [
+      {
+        "with_drug": "potassium",
+        "severity": "Medium",
+        "description": "ARBs + potassium \u2014 hyperkalemia, especially in renal impairment."
+      }
+    ]
+  },
+  "albuterol": {
+    "side_effects": [
+      "tremor",
+      "headache",
+      "rapid heart rate",
+      "nervousness",
+      "dizziness",
+      "throat irritation",
+      "muscle cramps",
+      "hypokalemia"
+    ],
+    "severity_score": 4.2,
+    "serious_event_rate": 0.04,
+    "interactions": []
+  },
+  "prednisone": {
+    "side_effects": [
+      "weight gain",
+      "insomnia",
+      "mood changes",
+      "increased blood sugar",
+      "osteoporosis",
+      "cataracts",
+      "hypertension",
+      "adrenal suppression",
+      "immunosuppression",
+      "Cushingoid features"
+    ],
+    "severity_score": 7.0,
+    "serious_event_rate": 0.15,
+    "interactions": [
+      {
+        "with_drug": "aspirin",
+        "severity": "Medium",
+        "description": "Increased GI ulceration/bleeding with corticosteroid + NSAID."
+      }
+    ]
+  },
+  "gabapentin": {
+    "side_effects": [
+      "dizziness",
+      "drowsiness",
+      "ataxia",
+      "fatigue",
+      "weight gain",
+      "peripheral edema",
+      "memory impairment",
+      "blurred vision"
+    ],
+    "severity_score": 5.0,
+    "serious_event_rate": 0.06,
+    "interactions": [
+      {
+        "with_drug": "oxycodone",
+        "severity": "High",
+        "description": "CNS depression and respiratory depression \u2014 FDA safety communication."
+      }
+    ]
+  },
+  "sertraline": {
+    "side_effects": [
+      "nausea",
+      "insomnia",
+      "diarrhea",
+      "dry mouth",
+      "dizziness",
+      "sexual dysfunction",
+      "sweating",
+      "tremor",
+      "serotonin syndrome (rare)"
+    ],
+    "severity_score": 5.5,
+    "serious_event_rate": 0.07,
+    "interactions": [
+      {
+        "with_drug": "tramadol",
+        "severity": "High",
+        "description": "Serotonin syndrome risk \u2014 agitation, hyperthermia, tachycardia."
+      },
+      {
+        "with_drug": "amitriptyline",
+        "severity": "Medium",
+        "description": "Additive serotonergic effects \u2014 serotonin syndrome risk."
+      }
+    ]
+  },
+  "fluoxetine": {
+    "side_effects": [
+      "nausea",
+      "insomnia",
+      "anxiety",
+      "diarrhea",
+      "headache",
+      "sexual dysfunction",
+      "rash",
+      "serotonin syndrome (rare)",
+      "weight loss"
+    ],
+    "severity_score": 5.2,
+    "serious_event_rate": 0.07,
+    "interactions": [
+      {
+        "with_drug": "tramadol",
+        "severity": "High",
+        "description": "Serotonin syndrome \u2014 concurrent use should be avoided."
+      }
+    ]
+  },
+  "escitalopram": {
+    "side_effects": [
+      "nausea",
+      "insomnia",
+      "sexual dysfunction",
+      "sweating",
+      "fatigue",
+      "dry mouth",
+      "dizziness",
+      "diarrhea"
+    ],
+    "severity_score": 4.8,
+    "serious_event_rate": 0.06,
+    "interactions": []
+  },
+  "levothyroxine": {
+    "side_effects": [
+      "palpitations",
+      "tremor",
+      "weight loss",
+      "insomnia",
+      "headache",
+      "anxiety",
+      "heat intolerance",
+      "bone loss (excess dose)"
+    ],
+    "severity_score": 4.5,
+    "serious_event_rate": 0.05,
+    "interactions": [
+      {
+        "with_drug": "calcium carbonate",
+        "severity": "Medium",
+        "description": "Calcium impairs levothyroxine absorption \u2014 separate by 4 hours."
+      },
+      {
+        "with_drug": "ferrous sulfate",
+        "severity": "Medium",
+        "description": "Iron chelates levothyroxine \u2014 significant reduction in absorption."
+      }
+    ]
+  },
+  "metronidazole": {
+    "side_effects": [
+      "nausea",
+      "metallic taste",
+      "vomiting",
+      "diarrhea",
+      "headache",
+      "dizziness",
+      "disulfiram reaction with alcohol",
+      "peripheral neuropathy"
+    ],
+    "severity_score": 5.0,
+    "serious_event_rate": 0.06,
+    "interactions": [
+      {
+        "with_drug": "alcohol",
+        "severity": "High",
+        "description": "Disulfiram-like reaction \u2014 severe flushing, nausea, vomiting."
+      }
+    ]
+  },
+  "ciprofloxacin": {
+    "side_effects": [
+      "nausea",
+      "diarrhea",
+      "C. difficile",
+      "tendon rupture",
+      "dizziness",
+      "photosensitivity",
+      "QT prolongation",
+      "peripheral neuropathy"
+    ],
+    "severity_score": 6.2,
+    "serious_event_rate": 0.09,
+    "interactions": [
+      {
+        "with_drug": "theophylline",
+        "severity": "High",
+        "description": "Ciprofloxacin inhibits theophylline metabolism \u2014 toxicity risk."
+      },
+      {
+        "with_drug": "calcium carbonate",
+        "severity": "Medium",
+        "description": "Calcium reduces fluoroquinolone absorption \u2014 take 2 hours apart."
+      }
+    ]
+  },
+  "azithromycin": {
+    "side_effects": [
+      "nausea",
+      "diarrhea",
+      "stomach pain",
+      "QT prolongation",
+      "hearing loss",
+      "liver damage",
+      "allergic reaction"
+    ],
+    "severity_score": 4.8,
+    "serious_event_rate": 0.06,
+    "interactions": []
+  },
+  "cetirizine": {
+    "side_effects": [
+      "drowsiness",
+      "dry mouth",
+      "fatigue",
+      "headache",
+      "pharyngitis"
+    ],
+    "severity_score": 2.5,
+    "serious_event_rate": 0.01,
+    "interactions": []
+  },
+  "loratadine": {
+    "side_effects": [
+      "headache",
+      "dry mouth",
+      "fatigue",
+      "nausea",
+      "drowsiness (rare)"
+    ],
+    "severity_score": 2.0,
+    "serious_event_rate": 0.01,
+    "interactions": []
+  },
+  "diphenhydramine": {
+    "side_effects": [
+      "drowsiness",
+      "dry mouth",
+      "urinary retention",
+      "blurred vision",
+      "confusion (elderly)",
+      "constipation",
+      "tachycardia"
+    ],
+    "severity_score": 5.0,
+    "serious_event_rate": 0.06,
+    "interactions": []
+  },
+  "clopidogrel": {
+    "side_effects": [
+      "bleeding",
+      "bruising",
+      "chest pain",
+      "rash",
+      "diarrhea",
+      "dizziness",
+      "thrombotic thrombocytopenic purpura (rare)"
+    ],
+    "severity_score": 6.0,
+    "serious_event_rate": 0.1,
+    "interactions": [
+      {
+        "with_drug": "omeprazole",
+        "severity": "Medium",
+        "description": "Omeprazole reduces clopidogrel antiplatelet effect via CYP2C19."
+      },
+      {
+        "with_drug": "aspirin",
+        "severity": "Low",
+        "description": "Dual antiplatelet therapy \u2014 used therapeutically but increases bleeding risk."
+      }
+    ]
+  },
+  "rosuvastatin": {
+    "side_effects": [
+      "muscle pain",
+      "headache",
+      "nausea",
+      "constipation",
+      "abdominal pain",
+      "weakness",
+      "rhabdomyolysis (rare)"
+    ],
+    "severity_score": 4.8,
+    "serious_event_rate": 0.05,
+    "interactions": []
+  },
+  "furosemide": {
+    "side_effects": [
+      "dehydration",
+      "electrolyte imbalance",
+      "low blood pressure",
+      "dizziness",
+      "ototoxicity",
+      "increased urination",
+      "muscle cramps",
+      "hypokalemia"
+    ],
+    "severity_score": 6.5,
+    "serious_event_rate": 0.1,
+    "interactions": [
+      {
+        "with_drug": "gentamicin",
+        "severity": "High",
+        "description": "Loop diuretics + aminoglycosides \u2014 additive ototoxicity and nephrotoxicity."
+      }
+    ]
+  },
+  "tramadol": {
+    "side_effects": [
+      "nausea",
+      "dizziness",
+      "constipation",
+      "headache",
+      "drowsiness",
+      "seizures",
+      "serotonin syndrome",
+      "dependence",
+      "respiratory depression"
+    ],
+    "severity_score": 7.0,
+    "serious_event_rate": 0.12,
+    "interactions": [
+      {
+        "with_drug": "ssri",
+        "severity": "High",
+        "description": "Risk of serotonin syndrome \u2014 potentially life-threatening."
+      },
+      {
+        "with_drug": "sertraline",
+        "severity": "High",
+        "description": "Serotonin syndrome risk \u2014 agitation, hyperthermia, tachycardia."
+      },
+      {
+        "with_drug": "fluoxetine",
+        "severity": "High",
+        "description": "Serotonin syndrome \u2014 concurrent use should be avoided."
+      },
+      {
+        "with_drug": "alcohol",
+        "severity": "High",
+        "description": "CNS depression \u2014 sedation, respiratory depression risk."
+      },
+      {
+        "with_drug": "bupropion",
+        "severity": "High",
+        "description": "Increased seizure risk \u2014 bupropion lowers seizure threshold."
+      }
+    ]
+  },
+  "oxycodone": {
+    "side_effects": [
+      "nausea",
+      "constipation",
+      "drowsiness",
+      "dizziness",
+      "respiratory depression",
+      "dependence",
+      "addiction",
+      "itching",
+      "overdose risk"
+    ],
+    "severity_score": 8.5,
+    "serious_event_rate": 0.22,
+    "interactions": [
+      {
+        "with_drug": "diazepam",
+        "severity": "High",
+        "description": "Opioid + benzodiazepine \u2014 respiratory depression, coma, death risk."
+      },
+      {
+        "with_drug": "gabapentin",
+        "severity": "High",
+        "description": "CNS depression and respiratory depression \u2014 FDA safety communication."
+      }
+    ]
+  },
+  "morphine": {
+    "side_effects": [
+      "respiratory depression",
+      "constipation",
+      "nausea",
+      "drowsiness",
+      "dependence",
+      "hypotension",
+      "urinary retention",
+      "pruritus"
+    ],
+    "severity_score": 8.8,
+    "serious_event_rate": 0.25,
+    "interactions": []
+  },
+  "fentanyl": {
+    "side_effects": [
+      "respiratory depression",
+      "sedation",
+      "dizziness",
+      "nausea",
+      "constipation",
+      "dependence",
+      "overdose risk",
+      "muscle rigidity"
+    ],
+    "severity_score": 9.2,
+    "serious_event_rate": 0.3,
+    "interactions": [
+      {
+        "with_drug": "alprazolam",
+        "severity": "High",
+        "description": "FDA Black Box: opioid + benzo combination is extremely dangerous."
+      }
+    ]
+  },
+  "diazepam": {
+    "side_effects": [
+      "drowsiness",
+      "dizziness",
+      "weakness",
+      "amnesia",
+      "dependence",
+      "respiratory depression",
+      "confusion",
+      "depression"
+    ],
+    "severity_score": 6.5,
+    "serious_event_rate": 0.1,
+    "interactions": [
+      {
+        "with_drug": "alcohol",
+        "severity": "High",
+        "description": "CNS depression potentiation \u2014 respiratory depression risk."
+      },
+      {
+        "with_drug": "oxycodone",
+        "severity": "High",
+        "description": "Opioid + benzodiazepine \u2014 respiratory depression, coma, death risk."
+      }
+    ]
+  },
+  "alprazolam": {
+    "side_effects": [
+      "sedation",
+      "dizziness",
+      "memory impairment",
+      "dependence",
+      "withdrawal",
+      "depression",
+      "cognitive impairment",
+      "respiratory depression"
+    ],
+    "severity_score": 7.0,
+    "serious_event_rate": 0.12,
+    "interactions": [
+      {
+        "with_drug": "alcohol",
+        "severity": "High",
+        "description": "Benzodiazepine + alcohol \u2014 severe CNS depression, overdose risk."
+      },
+      {
+        "with_drug": "fentanyl",
+        "severity": "High",
+        "description": "FDA Black Box: opioid + benzo combination is extremely dangerous."
+      }
+    ]
+  },
+  "quetiapine": {
+    "side_effects": [
+      "sedation",
+      "dry mouth",
+      "weight gain",
+      "dizziness",
+      "constipation",
+      "metabolic syndrome",
+      "tardive dyskinesia",
+      "QT prolongation"
+    ],
+    "severity_score": 6.5,
+    "serious_event_rate": 0.1,
+    "interactions": [
+      {
+        "with_drug": "alcohol",
+        "severity": "Medium",
+        "description": "Enhanced CNS depression \u2014 sedation, impaired motor function."
+      }
+    ]
+  },
+  "lithium": {
+    "side_effects": [
+      "tremor",
+      "polyuria",
+      "weight gain",
+      "thyroid dysfunction",
+      "nausea",
+      "diarrhea",
+      "cognitive impairment",
+      "lithium toxicity",
+      "kidney damage"
+    ],
+    "severity_score": 7.8,
+    "serious_event_rate": 0.18,
+    "interactions": [
+      {
+        "with_drug": "ibuprofen",
+        "severity": "High",
+        "description": "NSAIDs increase lithium levels \u2014 toxicity with narrow therapeutic window."
+      },
+      {
+        "with_drug": "naproxen",
+        "severity": "High",
+        "description": "NSAIDs reduce renal lithium clearance \u2014 elevated lithium toxicity."
+      }
+    ]
+  },
+  "valproic acid": {
+    "side_effects": [
+      "weight gain",
+      "tremor",
+      "hair loss",
+      "nausea",
+      "liver toxicity",
+      "pancreatitis",
+      "polycystic ovary syndrome",
+      "teratogenicity"
+    ],
+    "severity_score": 7.5,
+    "serious_event_rate": 0.16,
+    "interactions": [
+      {
+        "with_drug": "aspirin",
+        "severity": "Medium",
+        "description": "Aspirin displaces valproate from protein binding \u2014 elevated free drug."
+      }
+    ]
+  },
+  "methotrexate": {
+    "side_effects": [
+      "nausea",
+      "fatigue",
+      "mouth sores",
+      "liver toxicity",
+      "bone marrow suppression",
+      "lung toxicity",
+      "teratogenicity",
+      "infections",
+      "hair loss"
+    ],
+    "severity_score": 8.5,
+    "serious_event_rate": 0.22,
+    "interactions": [
+      {
+        "with_drug": "aspirin",
+        "severity": "High",
+        "description": "NSAIDs reduce renal clearance of methotrexate \u2014 severe toxicity."
+      },
+      {
+        "with_drug": "ibuprofen",
+        "severity": "High",
+        "description": "NSAID-methotrexate interaction \u2014 bone marrow suppression and nephrotoxicity."
+      }
+    ]
+  },
+  "insulin": {
+    "side_effects": [
+      "hypoglycemia",
+      "weight gain",
+      "injection site reactions",
+      "hypokalemia",
+      "lipodystrophy",
+      "edema",
+      "allergic reactions"
+    ],
+    "severity_score": 6.0,
+    "serious_event_rate": 0.12,
+    "interactions": []
+  },
+  "sildenafil": {
+    "side_effects": [
+      "headache",
+      "flushing",
+      "indigestion",
+      "visual disturbances",
+      "hypotension",
+      "priapism",
+      "back pain",
+      "nasal congestion"
+    ],
+    "severity_score": 5.0,
+    "serious_event_rate": 0.07,
+    "interactions": [
+      {
+        "with_drug": "nitroglycerin",
+        "severity": "High",
+        "description": "Severe hypotension \u2014 PDE5 inhibitors + nitrates are contraindicated."
+      }
+    ]
+  },
+  "digoxin": {
+    "side_effects": [
+      "nausea",
+      "vomiting",
+      "bradycardia",
+      "vision changes",
+      "arrhythmias",
+      "toxicity",
+      "confusion",
+      "anorexia"
+    ],
+    "severity_score": 8.0,
+    "serious_event_rate": 0.2,
+    "interactions": [
+      {
+        "with_drug": "amiodarone",
+        "severity": "High",
+        "description": "Amiodarone increases digoxin levels \u2014 risk of bradycardia and toxicity."
+      }
+    ]
+  },
+  "naproxen": {
+    "side_effects": [
+      "stomach pain",
+      "heartburn",
+      "nausea",
+      "dizziness",
+      "headache",
+      "GI bleeding",
+      "hypertension",
+      "fluid retention",
+      "kidney damage"
+    ],
+    "severity_score": 5.8,
+    "serious_event_rate": 0.09,
+    "interactions": [
+      {
+        "with_drug": "warfarin",
+        "severity": "High",
+        "description": "NSAIDs potentiate warfarin anticoagulation \u2014 serious bleeding risk."
+      },
+      {
+        "with_drug": "aspirin",
+        "severity": "Medium",
+        "description": "Competitive inhibition of COX-1 \u2014 reduced antiplatelet effect."
+      },
+      {
+        "with_drug": "lithium",
+        "severity": "High",
+        "description": "NSAIDs reduce renal lithium clearance \u2014 elevated lithium toxicity."
+      }
+    ]
+  },
+  "amitriptyline": {
+    "side_effects": [
+      "dry mouth",
+      "constipation",
+      "urinary retention",
+      "blurred vision",
+      "sedation",
+      "weight gain",
+      "cardiac arrhythmias",
+      "orthostatic hypotension"
+    ],
+    "severity_score": 6.5,
+    "serious_event_rate": 0.09,
+    "interactions": [
+      {
+        "with_drug": "sertraline",
+        "severity": "Medium",
+        "description": "Additive serotonergic effects \u2014 serotonin syndrome risk."
+      }
+    ]
+  },
+  "bupropion": {
+    "side_effects": [
+      "insomnia",
+      "dry mouth",
+      "headache",
+      "nausea",
+      "agitation",
+      "seizures",
+      "tachycardia",
+      "hypertension"
+    ],
+    "severity_score": 5.8,
+    "serious_event_rate": 0.08,
+    "interactions": [
+      {
+        "with_drug": "tramadol",
+        "severity": "High",
+        "description": "Increased seizure risk \u2014 bupropion lowers seizure threshold."
+      }
+    ]
+  },
+  "hydroxychloroquine": {
+    "side_effects": [
+      "nausea",
+      "stomach pain",
+      "headache",
+      "retinopathy",
+      "rash",
+      "QT prolongation",
+      "hypoglycemia"
+    ],
+    "severity_score": 5.0,
+    "serious_event_rate": 0.07,
+    "interactions": []
+  },
+  "rivaroxaban": {
+    "side_effects": [
+      "bleeding",
+      "bruising",
+      "anemia",
+      "back pain",
+      "GI bleeding",
+      "wound secretion",
+      "kidney impairment",
+      "liver toxicity"
+    ],
+    "severity_score": 7.5,
+    "serious_event_rate": 0.18,
+    "interactions": [
+      {
+        "with_drug": "aspirin",
+        "severity": "High",
+        "description": "Increased bleeding risk \u2014 avoid unless prescribed together."
+      }
+    ]
+  },
+  "apixaban": {
+    "side_effects": [
+      "bleeding",
+      "bruising",
+      "anemia",
+      "nausea",
+      "GI bleeding",
+      "liver toxicity",
+      "rash"
+    ],
+    "severity_score": 7.2,
+    "serious_event_rate": 0.16,
+    "interactions": [
+      {
+        "with_drug": "ibuprofen",
+        "severity": "High",
+        "description": "NOAC + NSAID \u2014 increased GI bleed risk."
+      }
+    ]
+  },
+  "dabigatran": {
+    "side_effects": [
+      "bleeding",
+      "GI upset",
+      "dyspepsia",
+      "GI bleeding",
+      "bruising",
+      "anemia",
+      "allergic reactions"
+    ],
+    "severity_score": 7.0,
+    "serious_event_rate": 0.15,
+    "interactions": [
+      {
+        "with_drug": "aspirin",
+        "severity": "High",
+        "description": "Anticoagulant + antiplatelet \u2014 substantially higher hemorrhage risk."
+      }
+    ]
+  },
+  "fluconazole": {
+    "side_effects": [
+      "nausea",
+      "headache",
+      "rash",
+      "liver toxicity",
+      "QT prolongation",
+      "diarrhea",
+      "stomach pain"
+    ],
+    "severity_score": 5.2,
+    "serious_event_rate": 0.07,
+    "interactions": [
+      {
+        "with_drug": "warfarin",
+        "severity": "High",
+        "description": "Azole antifungals potentiate warfarin \u2014 major bleeding risk."
+      }
+    ]
+  },
+  "carbamazepine": {
+    "side_effects": [
+      "dizziness",
+      "drowsiness",
+      "nausea",
+      "diplopia",
+      "liver toxicity",
+      "Stevens-Johnson syndrome",
+      "hyponatremia",
+      "bone marrow suppression"
+    ],
+    "severity_score": 7.5,
+    "serious_event_rate": 0.15,
+    "interactions": [
+      {
+        "with_drug": "oral contraceptives",
+        "severity": "High",
+        "description": "Enzyme induction reduces contraceptive efficacy."
+      }
+    ]
+  },
+  "phenytoin": {
+    "side_effects": [
+      "nystagmus",
+      "ataxia",
+      "cognitive impairment",
+      "gingival hyperplasia",
+      "hirsutism",
+      "liver toxicity",
+      "Stevens-Johnson syndrome",
+      "teratogenicity"
+    ],
+    "severity_score": 7.8,
+    "serious_event_rate": 0.16,
+    "interactions": [
+      {
+        "with_drug": "warfarin",
+        "severity": "High",
+        "description": "Variable interaction \u2014 can increase or decrease anticoagulation."
+      }
+    ]
+  },
+  "rifampin": {
+    "side_effects": [
+      "orange urine/tears/sweat",
+      "nausea",
+      "liver toxicity",
+      "rash",
+      "flu-like symptoms",
+      "thrombocytopenia"
+    ],
+    "severity_score": 6.5,
+    "serious_event_rate": 0.1,
+    "interactions": [
+      {
+        "with_drug": "warfarin",
+        "severity": "High",
+        "description": "Rifampin induces CYP enzymes \u2014 markedly reduces warfarin effect."
+      }
+    ]
+  },
+  "doxycycline": {
+    "side_effects": [
+      "photosensitivity",
+      "nausea",
+      "esophageal irritation",
+      "diarrhea",
+      "C. difficile",
+      "tooth discoloration (children)",
+      "intracranial hypertension"
+    ],
+    "severity_score": 5.0,
+    "serious_event_rate": 0.06,
+    "interactions": [
+      {
+        "with_drug": "calcium carbonate",
+        "severity": "Medium",
+        "description": "Calcium chelates doxycycline \u2014 reduced antibiotic absorption."
+      }
+    ]
+  },
+  "clindamycin": {
+    "side_effects": [
+      "diarrhea",
+      "C. difficile colitis",
+      "nausea",
+      "rash",
+      "abdominal pain",
+      "esophagitis",
+      "liver toxicity"
+    ],
+    "severity_score": 5.5,
+    "serious_event_rate": 0.08,
+    "interactions": []
+  },
+  "spironolactone": {
+    "side_effects": [
+      "hyperkalemia",
+      "gynecomastia",
+      "menstrual irregularities",
+      "dizziness",
+      "nausea",
+      "muscle cramps",
+      "kidney dysfunction"
+    ],
+    "severity_score": 5.5,
+    "serious_event_rate": 0.08,
+    "interactions": [
+      {
+        "with_drug": "lisinopril",
+        "severity": "Medium",
+        "description": "Both cause potassium retention \u2014 significant hyperkalemia risk."
+      }
+    ]
+  },
+  "ondansetron": {
+    "side_effects": [
+      "headache",
+      "constipation",
+      "QT prolongation",
+      "dizziness",
+      "fatigue",
+      "serotonin syndrome (rare)"
+    ],
+    "severity_score": 4.0,
+    "serious_event_rate": 0.04,
+    "interactions": []
+  },
+  "montelukast": {
+    "side_effects": [
+      "headache",
+      "mood changes",
+      "behavioral changes",
+      "insomnia",
+      "abdominal pain",
+      "neuropsychiatric events"
+    ],
+    "severity_score": 4.5,
+    "serious_event_rate": 0.05,
+    "interactions": []
+  },
+  "ranitidine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "pantoprazole": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "hydrochlorothiazide": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "enalapril": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "ramipril": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "carvedilol": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "bisoprolol": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "codeine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "clonazepam": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "lorazepam": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "zolpidem": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "olanzapine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "risperidone": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "aripiprazole": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "levetiracetam": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "lamotrigine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "sulfasalazine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "adalimumab": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "glipizide": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "sitagliptin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "pioglitazone": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "empagliflozin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "tetracycline": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "clarithromycin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "erythromycin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "itraconazole": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "acyclovir": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "oseltamivir": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "atenolol": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "propranolol": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "diltiazem": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "verapamil": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "bumetanide": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "torsemide": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "chlorthalidone": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "celecoxib": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "indomethacin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "diclofenac": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "ketorolac": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "metoclopramide": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "domperidone": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "loperamide": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "salbutamol": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "salmeterol": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "budesonide": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "fluticasone": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "vitamin d": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "calcium carbonate": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "ferrous sulfate": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "folic acid": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "nortriptyline": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "venlafaxine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "duloxetine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "citalopram": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "paroxetine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "mirtazapine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "trazodone": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "clomipramine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "haloperidol": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "chlorpromazine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "fluphenazine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "perphenazine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "donepezil": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "memantine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "rivastigmine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "galantamine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "tadalafil": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "vardenafil": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "tamsulosin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "finasteride": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "dutasteride": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "allopurinol": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "colchicine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "probenecid": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "nifedipine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "felodipine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "isosorbide": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "nitroglycerin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "heparin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "enoxaparin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "pravastatin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "lovastatin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "ezetimibe": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "methylphenidate": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "amphetamine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "lisdexamfetamine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "atomoxetine": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "vancomycin": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "linezolid": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  },
+  "isoniazid": {
+    "side_effects": [],
+    "severity_score": null,
+    "serious_event_rate": null,
+    "interactions": []
+  }
+}

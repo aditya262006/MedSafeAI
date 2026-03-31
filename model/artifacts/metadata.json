@@ -1,0 +1,17 @@
+{
+  "feature_cols": [
+    "side_effect_count",
+    "severity_score",
+    "serious_event_rate",
+    "interaction_count",
+    "interaction_flag",
+    "has_high_interaction"
+  ],
+  "risk_labels": [
+    "Low",
+    "Medium",
+    "High"
+  ],
+  "model_type": "XGBClassifier",
+  "shap_available": true
+}

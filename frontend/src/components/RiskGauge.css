@@ -1,0 +1,71 @@
+.risk-gauge-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.gauge-svg-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gauge-svg {
+  filter: drop-shadow(0 0 12px currentColor);
+}
+
+.gauge-center {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.gauge-emoji {
+  font-size: 22px;
+  line-height: 1;
+  font-style: normal;
+}
+
+.gauge-pct {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Sizes */
+.risk-gauge-sm .gauge-emoji { font-size: 16px; }
+.risk-gauge-sm .gauge-pct { font-size: 11px; }
+
+.risk-gauge-lg .gauge-emoji { font-size: 28px; }
+.risk-gauge-lg .gauge-pct { font-size: 18px; }
+
+.gauge-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.gauge-risk-text {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.gauge-drug-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+.risk-color-low { color: var(--risk-low); }
+.risk-color-medium { color: var(--risk-medium); }
+.risk-color-high { color: var(--risk-high); }

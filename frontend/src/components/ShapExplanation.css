@@ -1,0 +1,230 @@
+.shap-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.shap-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-default);
+  background: rgba(167, 139, 250, 0.04);
+}
+
+.shap-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: rgba(167, 139, 250, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: var(--radius-sm);
+  color: var(--accent-purple);
+  flex-shrink: 0;
+}
+
+.shap-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.shap-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.shap-header-chart-icon {
+  margin-left: auto;
+  color: var(--text-muted);
+}
+
+/* Explanation text */
+.shap-explanation-text {
+  padding: 16px 20px;
+  background: rgba(99, 162, 255, 0.04);
+  border-bottom: 1px solid var(--border-default);
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.shap-explanation-text strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Factor bars */
+.shap-factors {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.shap-factors-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.shap-factor-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.shap-factor-info {
+  flex: 0 0 200px;
+  min-width: 0;
+}
+
+.shap-feature-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shap-feature-desc {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.shap-bar-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shap-factor-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  min-width: 40px;
+  text-align: right;
+}
+
+.shap-bar-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.shap-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+.shap-bar-fill.positive.impact-high { background: linear-gradient(90deg, var(--risk-high), rgba(255,71,87,0.5)); }
+.shap-bar-fill.positive.impact-medium { background: linear-gradient(90deg, var(--risk-medium), rgba(255,184,48,0.5)); }
+.shap-bar-fill.positive.impact-low { background: linear-gradient(90deg, var(--risk-low), rgba(0,200,150,0.5)); }
+.shap-bar-fill.negative { background: linear-gradient(90deg, var(--accent-blue), rgba(99,162,255,0.5)); }
+
+.shap-impact-indicator {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  min-width: 48px;
+}
+
+.shap-impact-indicator.high { color: var(--risk-high); }
+.shap-impact-indicator.medium { color: var(--risk-medium); }
+.shap-impact-indicator.low { color: var(--text-muted); }
+
+/* Base risk */
+.shap-base-risk {
+  margin: 0 20px 20px;
+  padding: 12px 16px;
+  background: rgba(167, 139, 250, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.shap-base-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-purple);
+  white-space: nowrap;
+}
+
+.shap-base-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Multi drug summary */
+.shap-all-drugs {
+  margin: 0 20px 20px;
+  padding: 14px 16px;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+}
+
+.shap-all-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.shap-drug-summary-list { display: flex; flex-direction: column; gap: 6px; }
+
+.shap-drug-summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shap-drug-name-mini {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+.shap-risk-mini {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.risk-color-low { color: var(--risk-low); }
+.risk-color-medium { color: var(--risk-medium); }
+.risk-color-high { color: var(--risk-high); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .shap-factor-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .shap-factor-info { flex: none; }
+  .shap-factors { padding: 16px; }
+}
