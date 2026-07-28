@@ -7,9 +7,11 @@ services:
     numInstances: 1
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11
+        value: 3.11.9
     rootDir: backend
-    buildCommand: pip install -r requirements.txt
+    buildCommand: |
+      pip install --upgrade pip setuptools wheel && \
+      pip install --no-cache-dir -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port 8000
     routes:
       - path: /
