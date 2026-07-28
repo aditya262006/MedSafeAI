@@ -30,10 +30,16 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://itmed-safe-1fq77dxp8-adityaag5492045-6100s-projects.vercel.app",
+        "https://*.vercel.app",
+        "https://medsafeai-iep6.onrender.com",
+    ],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Accept", "Origin", "Authorization"],
 )
 
 # ── Models & Data (loaded at startup) ────────────────────────────────────────
