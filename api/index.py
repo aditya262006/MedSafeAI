@@ -1,42 +1,19 @@
 """
-Simple Flask backend for AI Side Effect Checker - Render compatible
-No pydantic, no compilation issues
-Run: python main.py
+MedSafeAI Backend - Vercel Serverless Function
+Deployed as API route on same domain as frontend
 """
 
 import os
-import sys
 import json
 import pickle
 import numpy as np
 from pathlib import Path
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 from typing import List, Dict, Any, Tuple
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent
 ARTIFACTS = ROOT / "model" / "artifacts"
 DATA = ROOT / "data" / "processed"
-
-# ── Flask App ─────────────────────────────────────────────────────────────────
-app = Flask(__name__)
-
-# CORS Configuration
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "http://localhost:5173",
-            "http://localhost:3000",
-            "https://itmed-safe-1fq77dxp8-adityaag5492045-6100s-projects.vercel.app",
-            "https://*.vercel.app",
-            "https://medsafeai-iep6.onrender.com",
-        ],
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Accept", "Origin", "Authorization"],
-        "supports_credentials": True
-    }
-})
 
 # ── Models & Data (loaded at startup) ────────────────────────────────────────
 ml_model = None
@@ -59,7 +36,7 @@ def load_resources():
     global ml_model, scaler, label_encoder, shap_explainer, metadata
     global drug_knowledge, interactions_db
 
-    print("🚀 Loading ML model and data...")
+    print("[API] Loading ML model and data...")
 
     # Load model artifacts
     try:
@@ -71,31 +48,30 @@ def load_resources():
             label_encoder = pickle.load(f)
         with open(ARTIFACTS / "metadata.json") as f:
             metadata = json.load(f)
-        print(f"✅ ML Model loaded: {metadata.get('model_type', 'Unknown')}")
+        print(f"[API] ML Model loaded: {metadata.get('model_type', 'Unknown')}")
 
         if (ARTIFACTS / "shap_explainer.pkl").exists():
             with open(ARTIFACTS / "shap_explainer.pkl", "rb") as f:
                 shap_explainer = pickle.load(f)
-            print("✅ SHAP explainer loaded")
+            print("[API] SHAP explainer loaded")
     except FileNotFoundError as e:
-        print(f"⚠️  Model artifacts not found: {e}")
-        print("   Run: python data/fetch_data.py && python model/train.py")
+        print(f"[API] Model artifacts not found: {e}")
 
     # Load drug knowledge base
     try:
         with open(DATA / "drug_knowledge.json") as f:
             drug_knowledge = json.load(f)
-        print(f"✅ Drug knowledge base: {len(drug_knowledge)} drugs")
+        print(f"[API] Drug knowledge base: {len(drug_knowledge)} drugs")
     except FileNotFoundError:
-        print("⚠️  drug_knowledge.json not found")
+        print("[API] drug_knowledge.json not found")
 
     # Load interactions
     try:
         with open(DATA / "interactions.json") as f:
             interactions_db = json.load(f)
-        print(f"✅ Drug interactions: {len(interactions_db)} pairs")
+        print(f"[API] Drug interactions: {len(interactions_db)} pairs")
     except FileNotFoundError:
-        print("⚠️  interactions.json not found")
+        print("[API] interactions.json not found")
 
 
 # ── Helper Functions ──────────────────────────────────────────────────────────
@@ -186,30 +162,6 @@ def predict_risk(features: Dict) -> Tuple[str, float]:
 def get_shap_explanation(features: Dict, risk_label: str) -> Dict:
     """Generate SHAP-based explanation for the prediction."""
     feat_array = np.array([[features[c] for c in FEATURE_COLS]])
-    shap_values_for_class = None
-
-    if shap_explainer is not None and scaler is not None:
-        try:
-            feat_scaled = scaler.transform(feat_array)
-            risk_idx = RISK_LABELS.index(risk_label)
-
-            if hasattr(shap_explainer, "__call__"):
-                exp = shap_explainer(feat_scaled)
-                sv = exp.values
-                if sv.ndim == 3:
-                    shap_values_for_class = sv[0, :, risk_idx]
-                elif sv.ndim == 2:
-                    shap_values_for_class = sv[0, :]
-                else:
-                    shap_values_for_class = sv
-            else:
-                sv = shap_explainer.shap_values(feat_scaled)
-                if isinstance(sv, list):
-                    shap_values_for_class = sv[risk_idx][0]
-                else:
-                    shap_values_for_class = sv[0]
-        except Exception as e:
-            print(f"SHAP explanation error: {e}")
 
     # Compute feature contributions
     factors = []
@@ -224,22 +176,19 @@ def get_shap_explanation(features: Dict, risk_label: str) -> Dict:
 
     for i, col in enumerate(FEATURE_COLS):
         val = features[col]
-        if shap_values_for_class is not None:
-            contribution = float(shap_values_for_class[i])
+        # Heuristic fallback (no SHAP in serverless for performance)
+        if col == "severity_score":
+            contribution = (val - 5.0) * 0.15
+        elif col == "serious_event_rate":
+            contribution = (val - 0.08) * 2.5
+        elif col == "side_effect_count":
+            contribution = (val - 6) * 0.05
+        elif col == "has_high_interaction":
+            contribution = val * 0.4
+        elif col == "interaction_count":
+            contribution = val * 0.1
         else:
-            # Heuristic fallback
-            if col == "severity_score":
-                contribution = (val - 5.0) * 0.15
-            elif col == "serious_event_rate":
-                contribution = (val - 0.08) * 2.5
-            elif col == "side_effect_count":
-                contribution = (val - 6) * 0.05
-            elif col == "has_high_interaction":
-                contribution = val * 0.4
-            elif col == "interaction_count":
-                contribution = val * 0.1
-            else:
-                contribution = val * 0.05
+            contribution = val * 0.05
 
         abs_contribution = abs(contribution)
         if abs_contribution >= 0.15:
@@ -337,135 +286,148 @@ def compute_combined_risk(results: List[Dict], interactions: List[Dict]) -> str:
     return {1: "Low", 2: "Medium", 3: "High"}.get(combined_score, "Medium")
 
 
-# ── Endpoints ──────────────────────────────────────────────────────────────────
-@app.route("/health", methods=["GET"])
-def health_check():
-    return jsonify({
-        "status": "healthy",
-        "model_loaded": ml_model is not None,
-        "shap_loaded": shap_explainer is not None,
-        "drugs_in_db": len(drug_knowledge),
-        "interactions_in_db": len(interactions_db)
-    })
+# ── API Handlers ───────────────────────────────────────────────────────────────
+def handle_request(request):
+    """Handle incoming HTTP request."""
+    path = request.path
+    method = request.method
 
+    # CORS headers
+    headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Accept, Origin",
+    }
 
-@app.route("/search", methods=["GET"])
-def search_drugs():
-    """Autocomplete drug name search."""
-    q = request.args.get("q", "").strip()
-    if not q or len(q) < 1:
-        return jsonify({"error": "Query parameter 'q' required"}), 400
+    # Handle CORS preflight
+    if method == "OPTIONS":
+        return ("", 204, headers)
 
-    query = q.lower()
-    matches = [
-        drug for drug in drug_knowledge.keys()
-        if query in drug.lower() and not drug.startswith("synthetic_")
-    ]
-    matches.sort(key=lambda x: (not x.lower().startswith(query), len(x)))
-    return jsonify({"suggestions": matches[:15], "query": q})
-
-
-@app.route("/predict", methods=["POST"])
-def predict():
-    """Predict risk for one or more drugs with SHAP explanations."""
     try:
-        data = request.get_json()
-        if not data or "drugs" not in data:
-            return jsonify({"error": "Request must contain 'drugs' list"}), 400
+        # Health check
+        if path == "/api/health" or path == "/health":
+            return (json.dumps({
+                "status": "healthy",
+                "model_loaded": ml_model is not None,
+                "drugs_in_db": len(drug_knowledge),
+                "interactions_in_db": len(interactions_db)
+            }), 200, headers)
 
-        drugs = data.get("drugs", [])
-        if not isinstance(drugs, list):
-            return jsonify({"error": "'drugs' must be a list"}), 400
+        # Search endpoint
+        if path == "/api/search" or path == "/search":
+            q = request.args.get("q", "").strip()
+            if not q or len(q) < 1:
+                return (json.dumps({"error": "Query parameter 'q' required"}), 400, headers)
 
-        if not drugs:
-            return jsonify({"error": "At least one drug name required"}), 400
+            query = q.lower()
+            matches = [
+                drug for drug in drug_knowledge.keys()
+                if query in drug.lower() and not drug.startswith("synthetic_")
+            ]
+            matches.sort(key=lambda x: (not x.lower().startswith(query), len(x)))
+            return (json.dumps({"suggestions": matches[:15], "query": q}), 200, headers)
 
-        if len(drugs) > 10:
-            return jsonify({"error": "Maximum 10 drugs per request"}), 400
+        # Predict endpoint
+        if path == "/api/predict" or path == "/predict":
+            if method != "POST":
+                return (json.dumps({"error": "POST method required"}), 405, headers)
 
-        # Normalize drug names
-        normalized = [normalize_drug_name(d) for d in drugs]
+            try:
+                data = request.json or {}
+            except:
+                data = {}
 
-        results = []
-        for drug in normalized:
-            found = drug in drug_knowledge
-            features = get_drug_features(drug)
-            risk_label, risk_score = predict_risk(features)
-            shap_exp = get_shap_explanation(features, risk_label)
+            if not data or "drugs" not in data:
+                return (json.dumps({"error": "Request must contain 'drugs' list"}), 400, headers)
 
-            info = drug_knowledge.get(drug, {})
-            side_effects = info.get("side_effects", [])
-            if not side_effects:
-                if risk_label == "High":
-                    side_effects = ["Consult a doctor before use", "May cause serious adverse events", "Monitor closely for side effects"]
-                elif risk_label == "Medium":
-                    side_effects = ["Mild to moderate side effects possible", "Follow dosage instructions carefully"]
-                else:
-                    side_effects = ["Generally well-tolerated", "Mild side effects may occur"]
+            drugs = data.get("drugs", [])
+            if not isinstance(drugs, list):
+                return (json.dumps({"error": "'drugs' must be a list"}), 400, headers)
 
-            results.append({
+            if not drugs:
+                return (json.dumps({"error": "At least one drug name required"}), 400, headers)
+
+            if len(drugs) > 10:
+                return (json.dumps({"error": "Maximum 10 drugs per request"}), 400, headers)
+
+            # Normalize drug names
+            normalized = [normalize_drug_name(d) for d in drugs]
+
+            results = []
+            for drug in normalized:
+                found = drug in drug_knowledge
+                features = get_drug_features(drug)
+                risk_label, risk_score = predict_risk(features)
+                shap_exp = get_shap_explanation(features, risk_label)
+
+                info = drug_knowledge.get(drug, {})
+                side_effects = info.get("side_effects", [])
+                if not side_effects:
+                    if risk_label == "High":
+                        side_effects = ["Consult a doctor before use", "May cause serious adverse events", "Monitor closely for side effects"]
+                    elif risk_label == "Medium":
+                        side_effects = ["Mild to moderate side effects possible", "Follow dosage instructions carefully"]
+                    else:
+                        side_effects = ["Generally well-tolerated", "Mild side effects may occur"]
+
+                results.append({
+                    "drug": drug,
+                    "found_in_db": found,
+                    "risk_level": risk_label,
+                    "risk_score": round(risk_score, 3),
+                    "risk_color": get_risk_color(risk_label),
+                    "side_effects": side_effects,
+                    "severity_score": round(features["severity_score"], 1),
+                    "serious_event_rate": round(features["serious_event_rate"], 3),
+                    "shap_explanation": shap_exp
+                })
+
+            interactions = find_interactions(normalized)
+            combined_risk = compute_combined_risk(results, interactions)
+
+            # Build summary
+            drug_names = ", ".join(d["drug"].title() for d in results)
+            int_str = f"{len(interactions)} drug interaction(s) detected." if interactions else "No drug interactions detected."
+            summary = f"Analysis of {drug_names}: Overall risk is **{combined_risk}**. {int_str}"
+
+            return (json.dumps({
+                "results": results,
+                "interactions": interactions,
+                "combined_risk": combined_risk,
+                "combined_risk_color": get_risk_color(combined_risk),
+                "summary": summary
+            }), 200, headers)
+
+        # Drug info endpoint
+        if path.startswith("/api/drug/") or path.startswith("/drug/"):
+            name = path.split("/")[-1]
+            drug = normalize_drug_name(name)
+            if drug not in drug_knowledge:
+                return (json.dumps({"error": f"Drug '{name}' not found in database"}), 404, headers)
+
+            info = drug_knowledge[drug]
+            return (json.dumps({
                 "drug": drug,
-                "found_in_db": found,
-                "risk_level": risk_label,
-                "risk_score": round(risk_score, 3),
-                "risk_color": get_risk_color(risk_label),
-                "side_effects": side_effects,
-                "severity_score": round(features["severity_score"], 1),
-                "serious_event_rate": round(features["serious_event_rate"], 3),
-                "shap_explanation": shap_exp
-            })
+                "side_effects": info.get("side_effects", []),
+                "severity_score": info.get("severity_score"),
+                "serious_event_rate": info.get("serious_event_rate"),
+                "interactions": info.get("interactions", [])
+            }), 200, headers)
 
-        interactions = find_interactions(normalized)
-        combined_risk = compute_combined_risk(results, interactions)
-
-        # Build summary
-        drug_names = ", ".join(d["drug"].title() for d in results)
-        int_str = f"{len(interactions)} drug interaction(s) detected." if interactions else "No drug interactions detected."
-        summary = f"Analysis of {drug_names}: Overall risk is **{combined_risk}**. {int_str}"
-
-        return jsonify({
-            "results": results,
-            "interactions": interactions,
-            "combined_risk": combined_risk,
-            "combined_risk_color": get_risk_color(combined_risk),
-            "summary": summary
-        })
+        return (json.dumps({"error": "Endpoint not found"}), 404, headers)
 
     except Exception as e:
-        print(f"Error in predict: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"[API] Error: {e}")
+        return (json.dumps({"error": str(e)}), 500, headers)
 
 
-@app.route("/drug/<name>", methods=["GET"])
-def get_drug_info(name: str):
-    """Get full information for a specific drug."""
-    drug = normalize_drug_name(name)
-    if drug not in drug_knowledge:
-        return jsonify({"error": f"Drug '{name}' not found in database"}), 404
-
-    info = drug_knowledge[drug]
-    return jsonify({
-        "drug": drug,
-        "side_effects": info.get("side_effects", []),
-        "severity_score": info.get("severity_score"),
-        "serious_event_rate": info.get("serious_event_rate"),
-        "interactions": info.get("interactions", [])
-    })
+# Load resources on module import
+print("[API] Initializing MedSafeAI backend...")
+load_resources()
 
 
-# Error handlers
-@app.errorhandler(404)
-def not_found(e):
-    return jsonify({"error": "Endpoint not found"}), 404
-
-
-@app.errorhandler(500)
-def server_error(e):
-    return jsonify({"error": "Internal server error"}), 500
-
-
-if __name__ == "__main__":
-    print("Loading resources...")
-    load_resources()
-    print("\n🚀 Starting Flask server on http://0.0.0.0:8000")
-    app.run(host="0.0.0.0", port=8000, debug=False)
+# Vercel serverless function handler
+def handler(request):
+    """Entry point for Vercel serverless function."""
+    return handle_request(request)
