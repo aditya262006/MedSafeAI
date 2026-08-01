@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { PredictResponse, SearchResponse } from './types';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 console.log('[MedSafeAI] API Base URL:', BASE_URL);
 

@@ -2,10 +2,30 @@
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "envPrefix": "VITE_",
+  "functions": {
+    "api/**/*.py": {
+      "runtime": "python3.11"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    }
+  ],
   "env": {
-    "VITE_API_URL": "@vite_api_url"
+    "VITE_API_URL": "/api"
   },
   "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
