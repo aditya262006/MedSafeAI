@@ -430,4 +430,9 @@ load_resources()
 # Vercel serverless function handler
 def handler(request):
     """Entry point for Vercel serverless function."""
-    return handle_request(request)
+    response_body, status_code, headers = handle_request(request)
+    return {
+        "statusCode": status_code,
+        "headers": headers,
+        "body": response_body if isinstance(response_body, str) else json.dumps(response_body)
+    }
