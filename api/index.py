@@ -422,17 +422,70 @@ def handle_request(request):
         return (json.dumps({"error": str(e)}), 500, headers)
 
 
-# Load resources on module import
-print("[API] Initializing MedSafeAI backend...")
-load_resources()
+# ── Vercel Handler ──────────────────────────────────────────────────────────────
+class VercelRequest:
+    """Wrapper for Vercel event to look like a request object."""
+    def __init__(self, event):
+        self.path = event.get("path", "/")
+        self.method = event.get("method", "GET").upper()
+        self.headers = event.get("headers", {})
+        self.body = event.get("body", "")
 
 
-# Vercel serverless function handler
-def handler(request):
+# Try to load resources, but don't crash if it fails
+try:
+    print("[API] Initializing MedSafeAI backend...")
+    load_resources()
+    print("[API] Backend initialized successfully")
+except Exception as e:
+    print(f"[API] WARNING: Could not load all resources: {e}")
+    import traceback
+    traceback.print_exc()
+
+
+def handler(event, context=None):
     """Entry point for Vercel serverless function."""
-    response_body, status_code, headers = handle_request(request)
-    return {
-        "statusCode": status_code,
-        "headers": headers,
-        "body": response_body if isinstance(response_body, str) else json.dumps(response_body)
-    }
+    try:
+        # Handle both direct request object and Vercel event format
+        if isinstance(event, dict):
+            # Vercel event format
+            request = VercelRequest(event)
+        else:
+            # Direct request object
+            request = event
+        
+        # Call backend handler
+        response_body, status_code, response_headers = handle_request(request)
+        
+        # Ensure response is JSON string
+        if not isinstance(response_body, str):
+            response_body = json.dumps(response_body)
+        
+        # Merge headers
+        headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Accept, Origin",
+            **response_headers
+        }
+        
+        return {
+            "statusCode": status_code,
+            "headers": headers,
+            "body": response_body
+        }
+        
+    except Exception as e:
+        print(f"[API] Handler error: {e}")
+        import traceback
+        traceback.print_exc()
+        
+        return {
+            "statusCode": 500,
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": json.dumps({"error": f"Server error: {str(e)}"})
+        }
