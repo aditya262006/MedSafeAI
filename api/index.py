@@ -316,7 +316,7 @@ def handle_request(request):
 
         # Search endpoint
         if path == "/api/search" or path == "/search":
-            q = (request.args.get("q", "") or request.args.params.get("q", "")).strip()
+            q = request.args.get("q", "").strip()
             if not q or len(q) < 1:
                 return (json.dumps({"error": "Query parameter 'q' required"}), 400, headers)
 
@@ -423,15 +423,10 @@ def handle_request(request):
 
 
 # ── Vercel Handler ──────────────────────────────────────────────────────────────
-class QueryArgs:
-    """Simple query string parser."""
-    def __init__(self, query_string):
-        self.params = {}
-        if query_string:
-            for pair in query_string.split("&"):
-                if "=" in pair:
-                    key, val = pair.split("=", 1)
-                    self.params[key] = val
+class QueryParams:
+    """Simple dict-like object for query parameters."""
+    def __init__(self, params_dict):
+        self.params = params_dict or {}
     
     def get(self, key, default=None):
         return self.params.get(key, default)
@@ -444,12 +439,10 @@ class VercelRequest:
         self.method = event.get("method", "GET").upper()
         self.headers = event.get("headers", {})
         self.body = event.get("body", "")
-        self.query_string = event.get("queryStringParameters") or {}
         
-        # Parse query parameters
-        self.args = QueryArgs("")
-        if isinstance(self.query_string, dict):
-            self.args.params = self.query_string
+        # Query parameters from Vercel - already a dict
+        query_params = event.get("queryStringParameters") or {}
+        self.args = QueryParams(query_params)
         
         # Parse JSON body
         self._json = None
@@ -457,10 +450,14 @@ class VercelRequest:
     @property
     def json(self):
         """Parse and cache JSON body."""
-        if self._json is None and self.body:
-            try:
-                self._json = json.loads(self.body) if isinstance(self.body, str) else self.body
-            except:
+        if self._json is None:
+            if self.body:
+                try:
+                    self._json = json.loads(self.body) if isinstance(self.body, str) else self.body
+                except Exception as e:
+                    print(f"[API] Failed to parse JSON body: {e}")
+                    self._json = {}
+            else:
                 self._json = {}
         return self._json
 
