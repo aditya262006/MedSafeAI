@@ -20,6 +20,10 @@ DRUGS = {
     "omeprazole": {"risk": "Low", "interactions": [], "uses": "Acid reflux"},
 }
 
+@app.route("/", methods=["GET"])
+def root():
+    return jsonify({"message": "MedSafeAI Backend API", "status": "running", "endpoints": ["/health", "/api/search", "/api/predict"]})
+
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({"status": "healthy", "drugs": len(DRUGS)})
