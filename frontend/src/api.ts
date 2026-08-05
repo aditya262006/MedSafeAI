@@ -1,8 +1,7 @@
 import axios from 'axios';
 import type { PredictResponse, SearchResponse } from './types';
 
-const RENDER_API_URL = 'https://medsafeai-api.onrender.com';
-const BASE_URL = (import.meta.env.VITE_API_URL || RENDER_API_URL).replace(/\/+$/, '');
+const BASE_URL = ''; // Use relative URL for same-domain deployment
 
 console.log('[MedSafeAI] API Base URL:', BASE_URL);
 

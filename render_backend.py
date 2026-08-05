@@ -1,12 +1,21 @@
 """
 MedSafeAI Backend - Render Deployment
-Pure Python Flask App
+Pure Python Flask App - Serves both backend API and frontend
 """
 import json
-from flask import Flask, request, jsonify
+import os
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+from pathlib import Path
 
-app = Flask(__name__)
+# Try to serve from built frontend, fallback to serving as API only
+FRONTEND_DIST = Path(__file__).parent.parent / 'frontend' / 'dist'
+HAS_FRONTEND = FRONTEND_DIST.exists()
+
+if HAS_FRONTEND:
+    app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path='')
+else:
+    app = Flask(__name__)
 CORS(app, origins="*")
 
 # Drug database
@@ -128,9 +137,15 @@ def drug_info(name):
 
 @app.route('/', methods=['GET'])
 def index():
+    if HAS_FRONTEND:
+        try:
+            return send_from_directory(str(FRONTEND_DIST), 'index.html')
+        except:
+            pass
     return jsonify({
         "service": "MedSafeAI Backend",
         "status": "running",
+        "frontend_available": HAS_FRONTEND,
         "endpoints": [
             "GET /health",
             "GET /api/health",
@@ -139,6 +154,15 @@ def index():
             "GET /api/drug/{name}"
         ]
     })
+
+@app.route('/<path:path>', methods=['GET'])
+def serve_static(path):
+    if HAS_FRONTEND:
+        try:
+            return send_from_directory(str(FRONTEND_DIST), path)
+        except:
+            pass
+    return jsonify({"error": "File not found"}), 404
 
 if __name__ == '__main__':
     import os

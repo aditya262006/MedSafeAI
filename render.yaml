@@ -1,1 +1,7 @@
-
+services:
+  - type: web
+    name: medsafeai-backend
+    env: python
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build && cd .. && pip install -r render_requirements.txt
+    startCommand: python render_backend.py
