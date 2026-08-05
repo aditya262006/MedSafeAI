@@ -7,20 +7,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "http://localhost:5173",
-            "http://localhost:3000",
-            "https://med-safe-ai.vercel.app",
-            "https://*.vercel.app",
-            "https://medsafeai-api.onrender.com",
-        ],
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Accept", "Origin", "Authorization"],
-        "supports_credentials": True
-    }
-})
+CORS(app, origins="*")
 
 # Drug database
 DRUGS = {
