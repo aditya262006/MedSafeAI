@@ -28,9 +28,9 @@ CORS(app, resources={
         "origins": [
             "http://localhost:5173",
             "http://localhost:3000",
-            "https://med-safe-ai.vercel.app",
+            "https://itmed-safe-1fq77dxp8-adityaag5492045-6100s-projects.vercel.app",
             "https://*.vercel.app",
-            "https://medsafeai-api.onrender.com",
+            "https://medsafeai-iep6.onrender.com",
         ],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Accept", "Origin", "Authorization"],
