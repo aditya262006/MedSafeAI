@@ -40,11 +40,7 @@ def health():
         "drugs_available": len(DRUGS)
     })
 
-@app.route('/api/health', methods=['GET'])
-def api_health():
-    return health()
-
-@app.route('/api/search', methods=['GET'])
+@app.route('/search', methods=['GET'])
 def search():
     q = request.args.get('q', '').lower().strip()
     
@@ -60,7 +56,7 @@ def search():
         "count": len(results)
     })
 
-@app.route('/api/predict', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json() or {}
     drugs = data.get('drugs', [])
@@ -123,7 +119,7 @@ def predict():
         "recommendation": "Always consult with a healthcare provider before combining medications."
     })
 
-@app.route('/api/drug/<name>', methods=['GET'])
+@app.route('/drug/<name>', methods=['GET'])
 def drug_info(name):
     name = name.lower()
     
@@ -148,10 +144,9 @@ def index():
         "frontend_available": HAS_FRONTEND,
         "endpoints": [
             "GET /health",
-            "GET /api/health",
-            "GET /api/search?q=drug_name",
-            "POST /api/predict",
-            "GET /api/drug/{name}"
+            "GET /search?q=drug_name",
+            "POST /predict",
+            "GET /drug/{name}"
         ]
     })
 
