@@ -2,8 +2,7 @@ services:
   - type: web
     name: medsafeai-backend
     env: python
-    region: oregon
+    runtime: "3.11"
     plan: free
     buildCommand: pip install -r render_requirements.txt
-    startCommand: python render_backend.py
-    healthCheckPath: /health
+    startCommand: gunicorn render_backend:app
