@@ -1,8 +1,1 @@
-services:
-  - type: web
-    name: medsafeai-backend
-    env: python
-    runtime: "3.11"
-    plan: free
-    buildCommand: pip install -r render_requirements.txt
-    startCommand: gunicorn render_backend:app
+
