@@ -1,13 +1,18 @@
 """
 MedSafeAI Backend - Render Deployment
-Pure Python Flask App
+Serves both backend API and frontend from single deployment
 """
 import json
-from flask import Flask, request, jsonify
+import os
+from pathlib import Path
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app, origins="*")
+
+# Frontend static files
+FRONTEND_DIST = Path(__file__).parent.parent / 'frontend' / 'dist'
 
 # Drug database
 DRUGS = {
@@ -31,11 +36,7 @@ def health():
         "drugs_available": len(DRUGS)
     })
 
-@app.route('/api/health', methods=['GET'])
-def api_health():
-    return health()
-
-@app.route('/api/search', methods=['GET'])
+@app.route('/search', methods=['GET'])
 def search():
     q = request.args.get('q', '').lower().strip()
     
@@ -51,7 +52,7 @@ def search():
         "count": len(results)
     })
 
-@app.route('/api/predict', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json() or {}
     drugs = data.get('drugs', [])
@@ -114,7 +115,7 @@ def predict():
         "recommendation": "Always consult with a healthcare provider before combining medications."
     })
 
-@app.route('/api/drug/<name>', methods=['GET'])
+@app.route('/drug/<name>', methods=['GET'])
 def drug_info(name):
     name = name.lower()
     
@@ -128,31 +129,33 @@ def drug_info(name):
 
 @app.route('/', methods=['GET'])
 def index():
-    if HAS_FRONTEND:
-        try:
+    """Serve frontend index.html if available, otherwise API info"""
+    try:
+        if FRONTEND_DIST.exists():
             return send_from_directory(str(FRONTEND_DIST), 'index.html')
-        except:
-            pass
+    except:
+        pass
     return jsonify({
         "service": "MedSafeAI Backend",
         "status": "running",
-        "frontend_available": HAS_FRONTEND,
         "endpoints": [
             "GET /health",
-            "GET /search?q=drug_name",
-            "POST /predict",
-            "GET /drug/{name}"
+            "GET /api/health",
+            "GET /api/search?q=drug_name",
+            "POST /api/predict",
+            "GET /api/drug/{name}"
         ]
     })
 
 @app.route('/<path:path>', methods=['GET'])
 def serve_static(path):
-    if HAS_FRONTEND:
-        try:
+    """Serve frontend static files if available"""
+    try:
+        if FRONTEND_DIST.exists():
             return send_from_directory(str(FRONTEND_DIST), path)
-        except:
-            pass
-    return jsonify({"error": "File not found"}), 404
+    except:
+        pass
+    return jsonify({"error": "Not found"}), 404
 
 if __name__ == '__main__':
     import os
