@@ -5,8 +5,5 @@ services:
     region: oregon
     plan: free
     buildCommand: pip install -r render_requirements.txt
-    startCommand: python3 render_backend.py
+    startCommand: python render_backend.py
     healthCheckPath: /health
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.11
