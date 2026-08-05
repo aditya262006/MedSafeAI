@@ -128,7 +128,7 @@ function App() {
               onClear={() => setHistory([])}
             />
             <a
-              href="http://localhost:8000/docs"
+              href="https://medsafeai-api.onrender.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-secondary header-api-btn"
