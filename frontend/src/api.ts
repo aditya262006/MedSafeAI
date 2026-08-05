@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { PredictResponse, SearchResponse } from './types';
 
-const BASE_URL = ''; // Use relative URL for same-domain deployment
+const BASE_URL = 'https://medsafeai-api.onrender.com';
 
 console.log('[MedSafeAI] API Base URL:', BASE_URL);
 
@@ -28,12 +28,12 @@ api.interceptors.response.use(
 );
 
 export async function searchDrugs(query: string): Promise<SearchResponse> {
-  const res = await api.get<SearchResponse>('/search', { params: { q: query } });
+  const res = await api.get<SearchResponse>('/api/search', { params: { q: query } });
   return res.data;
 }
 
 export async function predictRisk(drugs: string[]): Promise<PredictResponse> {
-  const res = await api.post('/predict', { drugs });
+  const res = await api.post('/api/predict', { drugs });
   const data = res.data as {
     results?: Array<Record<string, unknown>>;
     interactions?: Array<Record<string, unknown>>;
@@ -77,6 +77,6 @@ export async function predictRisk(drugs: string[]): Promise<PredictResponse> {
 }
 
 export async function checkHealth(): Promise<{ status: string; model_loaded: boolean }> {
-  const res = await api.get('/health');
+  const res = await api.get('/api/health');
   return res.data;
 }

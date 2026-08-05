@@ -1,21 +1,12 @@
 """
 MedSafeAI Backend - Render Deployment
-Pure Python Flask App - Serves both backend API and frontend
+Pure Python Flask App
 """
 import json
-import os
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-from pathlib import Path
 
-# Try to serve from built frontend, fallback to serving as API only
-FRONTEND_DIST = Path(__file__).parent.parent / 'frontend' / 'dist'
-HAS_FRONTEND = FRONTEND_DIST.exists()
-
-if HAS_FRONTEND:
-    app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path='')
-else:
-    app = Flask(__name__)
+app = Flask(__name__)
 CORS(app, origins="*")
 
 # Drug database
@@ -40,7 +31,11 @@ def health():
         "drugs_available": len(DRUGS)
     })
 
-@app.route('/search', methods=['GET'])
+@app.route('/api/health', methods=['GET'])
+def api_health():
+    return health()
+
+@app.route('/api/search', methods=['GET'])
 def search():
     q = request.args.get('q', '').lower().strip()
     
@@ -56,7 +51,7 @@ def search():
         "count": len(results)
     })
 
-@app.route('/predict', methods=['POST'])
+@app.route('/api/predict', methods=['POST'])
 def predict():
     data = request.get_json() or {}
     drugs = data.get('drugs', [])
@@ -119,7 +114,7 @@ def predict():
         "recommendation": "Always consult with a healthcare provider before combining medications."
     })
 
-@app.route('/drug/<name>', methods=['GET'])
+@app.route('/api/drug/<name>', methods=['GET'])
 def drug_info(name):
     name = name.lower()
     
