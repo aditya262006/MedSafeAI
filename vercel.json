@@ -1,50 +1,13 @@
 {
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
-  "envPrefix": "VITE_",
-  "functions": {
-    "api/index.py": {
-      "runtime": "python3.11",
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  },
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.py",
-      "methods": ["GET", "POST", "OPTIONS"]
-    },
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ],
-  "env": {
-    "VITE_API_URL": "/api"
-  },
   "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Accept, Origin"
-        }
-      ]
-    },
     {
       "source": "/(.*)",
       "headers": [
