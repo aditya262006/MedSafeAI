@@ -3,5 +3,5 @@ services:
     name: medsafeai-fullstack
     env: python
     plan: free
-    buildCommand: pip install -r render_requirements.txt
+    buildCommand: pip install -r render_requirements.txt && cd frontend && npm install && npm run build && cd ..
     startCommand: python render_backend.py
