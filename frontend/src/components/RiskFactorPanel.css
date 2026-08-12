@@ -1,0 +1,223 @@
+/* ── Risk Factor Panel ─────────────────────────────────────── */
+.rfp-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.rfp-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.rfp-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.rfp-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1px;
+}
+
+.rfp-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Explanation text */
+.rfp-explanation {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-default);
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.rfp-explanation strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Factor bars */
+.rfp-factors {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rfp-factors-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.rfp-factor-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rfp-factor-info {
+  flex: 0 0 170px;
+  min-width: 0;
+}
+
+.rfp-feature-name {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rfp-feature-desc {
+  display: block;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.rfp-bar-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rfp-factor-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  min-width: 36px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.rfp-bar-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.rfp-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.rfp-bar-fill.impact-high { background: var(--risk-high); }
+.rfp-bar-fill.impact-medium { background: var(--risk-medium); }
+.rfp-bar-fill.impact-low { background: var(--text-muted); }
+
+.rfp-impact-badge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  min-width: 44px;
+}
+
+.rfp-impact-badge.impact-high { color: var(--risk-high); }
+.rfp-impact-badge.impact-medium { color: var(--risk-medium); }
+.rfp-impact-badge.impact-low { color: var(--text-muted); }
+
+/* Recommendation */
+.rfp-recommendation {
+  margin: 0 20px 18px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rfp-rec-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.rfp-rec-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Multi drug summary */
+.rfp-drug-summary {
+  margin: 0 20px 18px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+}
+
+.rfp-summary-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.rfp-summary-list { display: flex; flex-direction: column; gap: 5px; }
+
+.rfp-summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rfp-summary-drug {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+.rfp-summary-risk {
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .rfp-factor-row { flex-direction: column; align-items: stretch; gap: 6px; }
+  .rfp-factor-info { flex: none; }
+  .rfp-factors { padding: 14px; }
+}

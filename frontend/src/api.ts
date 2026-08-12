@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { PredictResponse, SearchResponse } from './types';
+import type { PredictResponse, SearchResponse, SymptomResult } from './types';
 
 const BASE_URL = 'https://medsafeai-api.onrender.com';
 
@@ -78,5 +78,18 @@ export async function predictRisk(drugs: string[]): Promise<PredictResponse> {
 
 export async function checkHealth(): Promise<{ status: string; model_loaded: boolean }> {
   const res = await api.get('/api/health');
+  return res.data;
+}
+
+export async function searchBySymptom(query: string): Promise<SymptomResult> {
+  const res = await api.get<SymptomResult>('/symptoms/search', { params: { q: query } });
+  return res.data;
+}
+
+export async function sendChatMessage(
+  message: string,
+  history?: { role: string; content: string }[]
+): Promise<{ response: string }> {
+  const res = await api.post<{ response: string }>('/chat', { message, history });
   return res.data;
 }

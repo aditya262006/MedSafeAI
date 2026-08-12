@@ -1,0 +1,208 @@
+.symptom-search-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.symptom-search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 6px;
+  transition: all var(--transition-base);
+}
+
+.symptom-search-input-wrap:focus-within {
+  border-color: var(--border-accent);
+  background: var(--bg-card-hover);
+}
+
+.symptom-search-icon {
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+}
+
+.symptom-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 10px 10px 10px 42px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.symptom-search-btn {
+  padding: 8px 18px;
+  font-size: 13px;
+}
+
+.symptom-quick-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.symptom-quick-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.symptom-chip {
+  padding: 3px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.symptom-chip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+}
+
+.symptom-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--risk-high-bg);
+  border: 1px solid var(--risk-high-border);
+  border-radius: var(--radius-sm);
+  color: var(--risk-high);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.symptom-result-card {
+  padding: 20px;
+  margin-top: 8px;
+  text-align: left;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+}
+
+.symptom-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.symptom-result-header h3 {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.highlight-symptom {
+  color: var(--text-primary);
+  text-transform: capitalize;
+}
+
+.symptom-severity-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.sev-mild { background: var(--risk-low-bg); color: var(--risk-low); }
+.sev-moderate { background: var(--risk-medium-bg); color: var(--risk-medium); }
+.sev-serious { background: var(--risk-high-bg); color: var(--risk-high); }
+
+.symptom-advice {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.symptom-consult-warn {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(245, 158, 11, 0.05);
+  border: 1px solid var(--risk-medium-border);
+  border-radius: var(--radius-sm);
+  color: var(--risk-medium);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.symptom-consult-warn strong {
+  color: var(--text-primary);
+}
+
+.symptom-drugs-list h4 {
+  font-size: 13px;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.symptom-drugs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.symptom-drug-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+}
+
+.symptom-drug-item:hover {
+  border-color: var(--border-accent);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.symptom-drug-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: capitalize;
+  color: var(--text-primary);
+}
+
+.symptom-add-drug-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.symptom-add-drug-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-default);
+}

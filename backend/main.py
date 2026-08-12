@@ -1,7 +1,7 @@
 """
-Simple Flask backend for AI Side Effect Checker - Render compatible
-No pydantic, no compilation issues
-Run: python main.py
+FastAPI backend for AI Side Effect Checker
+Run: uvicorn backend.main:app --reload --port 8000
+Neural Network (MLP) powered drug safety analysis.
 """
 
 import os
@@ -10,42 +10,48 @@ import json
 import pickle
 import numpy as np
 from pathlib import Path
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from typing import List, Dict, Any, Tuple
+from typing import List, Optional, Dict, Any, Tuple
+from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import re
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent
 ARTIFACTS = ROOT / "model" / "artifacts"
 DATA = ROOT / "data" / "processed"
 
-# ── Flask App ─────────────────────────────────────────────────────────────────
-app = Flask(__name__)
+# ── FastAPI App ───────────────────────────────────────────────────────────────
+app = FastAPI(
+    title="AI Side Effect Checker API",
+    description="Neural Network-powered drug safety analysis with clinical risk factor breakdown",
+    version="2.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
 
 # CORS Configuration
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "http://localhost:5173",
-            "http://localhost:3000",
-            "https://itmed-safe-1fq77dxp8-adityaag5492045-6100s-projects.vercel.app",
-            "https://*.vercel.app",
-            "https://medsafeai-iep6.onrender.com",
-        ],
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Accept", "Origin", "Authorization"],
-        "supports_credentials": True
-    }
-})
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://itmed-safe-1fq77dxp8-adityaag5492045-6100s-projects.vercel.app",
+        "https://medsafeai-iep6.onrender.com",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ── Models & Data (loaded at startup) ────────────────────────────────────────
 ml_model = None
 scaler = None
 label_encoder = None
-shap_explainer = None
 metadata = None
 drug_knowledge: Dict = {}
 interactions_db: List = []
+symptoms_mapping: Dict = {}
 
 FEATURE_COLS = [
     "side_effect_count", "severity_score", "serious_event_rate",
@@ -53,13 +59,12 @@ FEATURE_COLS = [
 ]
 RISK_LABELS = ["Low", "Medium", "High"]
 
+@app.on_event("startup")
+async def load_resources():
+    global ml_model, scaler, label_encoder, metadata
+    global drug_knowledge, interactions_db, symptoms_mapping
 
-def load_resources():
-    """Load ML model and data at startup."""
-    global ml_model, scaler, label_encoder, shap_explainer, metadata
-    global drug_knowledge, interactions_db
-
-    print("🚀 Loading ML model and data...")
+    print("[STARTUP] Loading ML model and data...")
 
     # Load model artifacts
     try:
@@ -69,34 +74,96 @@ def load_resources():
             scaler = pickle.load(f)
         with open(ARTIFACTS / "label_encoder.pkl", "rb") as f:
             label_encoder = pickle.load(f)
-        with open(ARTIFACTS / "metadata.json") as f:
+        with open(ARTIFACTS / "metadata.json", encoding="utf-8") as f:
             metadata = json.load(f)
-        print(f"✅ ML Model loaded: {metadata.get('model_type', 'Unknown')}")
-
-        if (ARTIFACTS / "shap_explainer.pkl").exists():
-            with open(ARTIFACTS / "shap_explainer.pkl", "rb") as f:
-                shap_explainer = pickle.load(f)
-            print("✅ SHAP explainer loaded")
+        print(f"[OK] ML Model loaded: {metadata.get('model_type', 'Unknown')}")
     except FileNotFoundError as e:
-        print(f"⚠️  Model artifacts not found: {e}")
+        print(f"[WARN] Model artifacts not found: {e}")
         print("   Run: python data/fetch_data.py && python model/train.py")
 
     # Load drug knowledge base
     try:
-        with open(DATA / "drug_knowledge.json") as f:
+        with open(DATA / "drug_knowledge.json", encoding="utf-8") as f:
             drug_knowledge = json.load(f)
-        print(f"✅ Drug knowledge base: {len(drug_knowledge)} drugs")
+        print(f"[OK] Drug knowledge base: {len(drug_knowledge)} drugs")
     except FileNotFoundError:
-        print("⚠️  drug_knowledge.json not found")
+        print("[WARN] drug_knowledge.json not found")
 
     # Load interactions
     try:
-        with open(DATA / "interactions.json") as f:
+        with open(DATA / "interactions.json", encoding="utf-8") as f:
             interactions_db = json.load(f)
-        print(f"✅ Drug interactions: {len(interactions_db)} pairs")
+        print(f"[OK] Drug interactions: {len(interactions_db)} pairs")
     except FileNotFoundError:
-        print("⚠️  interactions.json not found")
+        print("[WARN] interactions.json not found")
+        
+    # Load symptoms mapping
+    try:
+        with open(DATA / "symptoms_mapping.json", encoding="utf-8") as f:
+            symptoms_mapping = json.load(f)
+        print(f"[OK] Symptoms mapping loaded: {len(symptoms_mapping)} symptoms")
+    except FileNotFoundError:
+        print("[WARN] symptoms_mapping.json not found")
 
+# ── Pydantic Schemas ──────────────────────────────────────────────────────────
+class PredictRequest(BaseModel):
+    drugs: List[str]
+
+
+class ChatRequest(BaseModel):
+    message: str
+    history: Optional[List[Dict[str, str]]] = None
+
+
+class ChatResponse(BaseModel):
+    response: str
+
+
+class ClinicalFactor(BaseModel):
+    feature: str
+    value: float
+    impact: str
+    contribution: float
+
+
+class ClinicalFactors(BaseModel):
+    top_factors: List[ClinicalFactor]
+    explanation_text: str
+    base_risk: str
+
+
+class DrugResult(BaseModel):
+    drug: str
+    found_in_db: bool
+    risk_level: str
+    risk_score: float
+    risk_color: str
+    side_effects: List[str]
+    severity_score: float
+    serious_event_rate: float
+    clinical_factors: Optional[ClinicalFactors]
+    demographics: Optional[Dict[str, Any]] = None
+    specialist_consult: Optional[str] = None
+    clinical_consensus: Optional[str] = None
+
+
+class Interaction(BaseModel):
+    drug_a: str
+    drug_b: str
+    severity: str
+    description: str
+    severity_color: str
+    evidence_level: Optional[str] = None
+    verified_source: Optional[str] = None
+
+
+class PredictResponse(BaseModel):
+    results: List[DrugResult]
+    interactions: List[Interaction]
+    combined_risk: str
+    combined_risk_color: str
+    summary: str
+    consultation_suggestion: str
 
 # ── Helper Functions ──────────────────────────────────────────────────────────
 def normalize_drug_name(name: str) -> str:
@@ -183,35 +250,8 @@ def predict_risk(features: Dict) -> Tuple[str, float]:
     return risk_label, risk_score
 
 
-def get_shap_explanation(features: Dict, risk_label: str) -> Dict:
-    """Generate SHAP-based explanation for the prediction."""
-    feat_array = np.array([[features[c] for c in FEATURE_COLS]])
-    shap_values_for_class = None
-
-    if shap_explainer is not None and scaler is not None:
-        try:
-            feat_scaled = scaler.transform(feat_array)
-            risk_idx = RISK_LABELS.index(risk_label)
-
-            if hasattr(shap_explainer, "__call__"):
-                exp = shap_explainer(feat_scaled)
-                sv = exp.values
-                if sv.ndim == 3:
-                    shap_values_for_class = sv[0, :, risk_idx]
-                elif sv.ndim == 2:
-                    shap_values_for_class = sv[0, :]
-                else:
-                    shap_values_for_class = sv
-            else:
-                sv = shap_explainer.shap_values(feat_scaled)
-                if isinstance(sv, list):
-                    shap_values_for_class = sv[risk_idx][0]
-                else:
-                    shap_values_for_class = sv[0]
-        except Exception as e:
-            print(f"SHAP explanation error: {e}")
-
-    # Compute feature contributions
+def get_clinical_factors(features: Dict, risk_label: str) -> ClinicalFactors:
+    """Generate clinical factor breakdown for the prediction using rule-based heuristics."""
     factors = []
     feature_labels = {
         "side_effect_count": "Number of Side Effects",
@@ -222,24 +262,21 @@ def get_shap_explanation(features: Dict, risk_label: str) -> Dict:
         "has_high_interaction": "Has High-Severity Interactions",
     }
 
-    for i, col in enumerate(FEATURE_COLS):
+    for col in FEATURE_COLS:
         val = features[col]
-        if shap_values_for_class is not None:
-            contribution = float(shap_values_for_class[i])
+        # Rule-based contribution scoring
+        if col == "severity_score":
+            contribution = (val - 5.0) * 0.15
+        elif col == "serious_event_rate":
+            contribution = (val - 0.08) * 2.5
+        elif col == "side_effect_count":
+            contribution = (val - 6) * 0.05
+        elif col == "has_high_interaction":
+            contribution = val * 0.4
+        elif col == "interaction_count":
+            contribution = val * 0.1
         else:
-            # Heuristic fallback
-            if col == "severity_score":
-                contribution = (val - 5.0) * 0.15
-            elif col == "serious_event_rate":
-                contribution = (val - 0.08) * 2.5
-            elif col == "side_effect_count":
-                contribution = (val - 6) * 0.05
-            elif col == "has_high_interaction":
-                contribution = val * 0.4
-            elif col == "interaction_count":
-                contribution = val * 0.1
-            else:
-                contribution = val * 0.05
+            contribution = val * 0.05
 
         abs_contribution = abs(contribution)
         if abs_contribution >= 0.15:
@@ -249,14 +286,14 @@ def get_shap_explanation(features: Dict, risk_label: str) -> Dict:
         else:
             impact = "low"
 
-        factors.append({
-            "feature": feature_labels[col],
-            "value": round(val, 3),
-            "impact": impact,
-            "contribution": round(contribution, 4)
-        })
+        factors.append(ClinicalFactor(
+            feature=feature_labels[col],
+            value=round(val, 3),
+            impact=impact,
+            contribution=round(contribution, 4)
+        ))
 
-    factors.sort(key=lambda x: abs(x["contribution"]), reverse=True)
+    factors.sort(key=lambda x: abs(x.contribution), reverse=True)
     top_factors = factors[:4]
 
     # Build human-readable explanation
@@ -273,7 +310,7 @@ def get_shap_explanation(features: Dict, risk_label: str) -> Dict:
         explanation_parts.append(f"{features['interaction_count']} known drug interactions")
 
     if explanation_parts:
-        text = f"Risk predicted as **{risk_label}** due to: {', '.join(explanation_parts[:3])}."
+        text = f"Risk assessed as **{risk_label}** based on: {', '.join(explanation_parts[:3])}."
     else:
         if risk_label == "Low":
             text = "Low risk: minimal side effects, no severe interactions, and low adverse event rate."
@@ -288,14 +325,14 @@ def get_shap_explanation(features: Dict, risk_label: str) -> Dict:
         "High": "High-risk medication — medical supervision required"
     }
 
-    return {
-        "top_factors": top_factors,
-        "explanation_text": text,
-        "base_risk": base_map[risk_label]
-    }
+    return ClinicalFactors(
+        top_factors=top_factors,
+        explanation_text=text,
+        base_risk=base_map[risk_label]
+    )
 
 
-def find_interactions(drug_list: List[str]) -> List[Dict]:
+def find_interactions(drug_list: List[str]) -> List[Interaction]:
     """Find interactions between all provided drugs."""
     found = []
     for i in range(len(drug_list)):
@@ -306,23 +343,25 @@ def find_interactions(drug_list: List[str]) -> List[Dict]:
                 ia = inter["drug_a"].lower()
                 ib = inter["drug_b"].lower()
                 if (ia == a and ib == b) or (ia == b and ib == a):
-                    found.append({
-                        "drug_a": inter["drug_a"],
-                        "drug_b": inter["drug_b"],
-                        "severity": inter["severity"],
-                        "description": inter["description"],
-                        "severity_color": get_severity_color(inter["severity"])
-                    })
+                    found.append(Interaction(
+                        drug_a=inter["drug_a"],
+                        drug_b=inter["drug_b"],
+                        severity=inter["severity"],
+                        description=inter["description"],
+                        severity_color=get_severity_color(inter["severity"]),
+                        evidence_level=inter.get("evidence_level"),
+                        verified_source=inter.get("verified_source")
+                    ))
     return found
 
 
-def compute_combined_risk(results: List[Dict], interactions: List[Dict]) -> str:
+def compute_combined_risk(results: List[DrugResult], interactions: List[Interaction]) -> str:
     """Compute aggregate risk across all drugs and interactions."""
     risk_scores = {"Low": 1, "Medium": 2, "High": 3}
-    individual_max = max((risk_scores.get(r["risk_level"], 1) for r in results), default=1)
+    individual_max = max((risk_scores.get(r.risk_level, 1) for r in results), default=1)
 
-    has_high_interaction = any(i["severity"] == "High" for i in interactions)
-    has_med_interaction = any(i["severity"] == "Medium" for i in interactions)
+    has_high_interaction = any(i.severity == "High" for i in interactions)
+    has_med_interaction = any(i.severity == "Medium" for i in interactions)
 
     combined_score = individual_max
     if has_high_interaction:
@@ -338,134 +377,165 @@ def compute_combined_risk(results: List[Dict], interactions: List[Dict]) -> str:
 
 
 # ── Endpoints ──────────────────────────────────────────────────────────────────
-@app.route("/health", methods=["GET"])
-def health_check():
-    return jsonify({
+@app.get("/health")
+async def health_check():
+    return {
         "status": "healthy",
         "model_loaded": ml_model is not None,
-        "shap_loaded": shap_explainer is not None,
+        "model_type": metadata.get("model_type", "Unknown") if metadata else "Unknown",
         "drugs_in_db": len(drug_knowledge),
         "interactions_in_db": len(interactions_db)
-    })
+    }
 
 
-@app.route("/search", methods=["GET"])
-def search_drugs():
+@app.get("/search")
+async def search_drugs(q: str = Query(..., min_length=1)):
     """Autocomplete drug name search."""
-    q = request.args.get("q", "").strip()
-    if not q or len(q) < 1:
-        return jsonify({"error": "Query parameter 'q' required"}), 400
-
     query = q.lower()
     matches = [
         drug for drug in drug_knowledge.keys()
         if query in drug.lower() and not drug.startswith("synthetic_")
     ]
     matches.sort(key=lambda x: (not x.lower().startswith(query), len(x)))
-    return jsonify({"suggestions": matches[:15], "query": q})
+    return {"suggestions": matches[:15], "query": q}
 
 
-@app.route("/predict", methods=["POST"])
-def predict():
-    """Predict risk for one or more drugs with SHAP explanations."""
-    try:
-        data = request.get_json()
-        if not data or "drugs" not in data:
-            return jsonify({"error": "Request must contain 'drugs' list"}), 400
+@app.post("/predict", response_model=PredictResponse)
+async def predict(request: PredictRequest):
+    """Predict risk for one or more drugs with clinical factor analysis."""
+    if not request.drugs:
+        raise HTTPException(status_code=400, detail="At least one drug name required")
 
-        drugs = data.get("drugs", [])
-        if not isinstance(drugs, list):
-            return jsonify({"error": "'drugs' must be a list"}), 400
+    normalized = [normalize_drug_name(d) for d in request.drugs]
 
-        if not drugs:
-            return jsonify({"error": "At least one drug name required"}), 400
+    results = []
+    for drug in normalized:
+        found = drug in drug_knowledge
+        features = get_drug_features(drug)
+        risk_label, risk_score = predict_risk(features)
+        clinical = get_clinical_factors(features, risk_label)
 
-        if len(drugs) > 10:
-            return jsonify({"error": "Maximum 10 drugs per request"}), 400
+        info = drug_knowledge.get(drug, {})
+        side_effects = info.get("side_effects", [])
+        if not side_effects:
+            if risk_label == "High":
+                side_effects = ["Consult a doctor before use", "May cause serious adverse events", "Monitor closely for side effects"]
+            elif risk_label == "Medium":
+                side_effects = ["Mild to moderate side effects possible", "Follow dosage instructions carefully"]
+            else:
+                side_effects = ["Generally well-tolerated", "Mild side effects may occur"]
 
-        # Normalize drug names
-        normalized = [normalize_drug_name(d) for d in drugs]
+        results.append(DrugResult(
+            drug=drug,
+            found_in_db=found,
+            risk_level=risk_label,
+            risk_score=round(risk_score, 3),
+            risk_color=get_risk_color(risk_label),
+            side_effects=side_effects,
+            severity_score=round(features["severity_score"], 1),
+            serious_event_rate=round(features["serious_event_rate"], 3),
+            clinical_factors=clinical,
+            demographics=info.get("demographics"),
+            specialist_consult=info.get("specialist_consult"),
+            clinical_consensus=info.get("clinical_consensus")
+        ))
 
-        results = []
-        for drug in normalized:
-            found = drug in drug_knowledge
-            features = get_drug_features(drug)
-            risk_label, risk_score = predict_risk(features)
-            shap_exp = get_shap_explanation(features, risk_label)
+    interactions = find_interactions(normalized)
+    combined_risk = compute_combined_risk(results, interactions)
 
-            info = drug_knowledge.get(drug, {})
-            side_effects = info.get("side_effects", [])
-            if not side_effects:
-                if risk_label == "High":
-                    side_effects = ["Consult a doctor before use", "May cause serious adverse events", "Monitor closely for side effects"]
-                elif risk_label == "Medium":
-                    side_effects = ["Mild to moderate side effects possible", "Follow dosage instructions carefully"]
-                else:
-                    side_effects = ["Generally well-tolerated", "Mild side effects may occur"]
+    # Build summary and consultation suggestions
+    drug_names = ", ".join(d.drug.title() for d in results)
+    if len(interactions) > 0:
+        int_str = f"{len(interactions)} drug interaction(s) detected."
+    else:
+        int_str = "No drug interactions detected."
+    
+    summary = f"Analysis of {drug_names}: Overall risk is **{combined_risk}**. {int_str}"
+    
+    if combined_risk == "High":
+        consultation = "⚠️ HIGH RISK: Immediate doctor consultation is strongly recommended. Do not start, stop, or change these medications without medical supervision. The predicted risk profile suggests potential for severe adverse events or dangerous drug interactions."
+    elif combined_risk == "Medium":
+        consultation = "ℹ️ MODERATE RISK: Please discuss these medications with your pharmacist or doctor during your next visit. Monitor closely for any of the listed side effects, especially when starting a new prescription."
+    else:
+        consultation = "✅ LOW RISK: These medications generally have a favorable safety profile. Standard monitoring applies. Always follow the prescribed dosage and consult a healthcare provider if you experience unexpected symptoms."
 
-            results.append({
-                "drug": drug,
-                "found_in_db": found,
-                "risk_level": risk_label,
-                "risk_score": round(risk_score, 3),
-                "risk_color": get_risk_color(risk_label),
-                "side_effects": side_effects,
-                "severity_score": round(features["severity_score"], 1),
-                "serious_event_rate": round(features["serious_event_rate"], 3),
-                "shap_explanation": shap_exp
-            })
-
-        interactions = find_interactions(normalized)
-        combined_risk = compute_combined_risk(results, interactions)
-
-        # Build summary
-        drug_names = ", ".join(d["drug"].title() for d in results)
-        int_str = f"{len(interactions)} drug interaction(s) detected." if interactions else "No drug interactions detected."
-        summary = f"Analysis of {drug_names}: Overall risk is **{combined_risk}**. {int_str}"
-
-        return jsonify({
-            "results": results,
-            "interactions": interactions,
-            "combined_risk": combined_risk,
-            "combined_risk_color": get_risk_color(combined_risk),
-            "summary": summary
-        })
-
-    except Exception as e:
-        print(f"Error in predict: {e}")
-        return jsonify({"error": str(e)}), 500
+    return PredictResponse(
+        results=results,
+        interactions=interactions,
+        combined_risk=combined_risk,
+        combined_risk_color=get_risk_color(combined_risk),
+        summary=summary,
+        consultation_suggestion=consultation
+    )
 
 
-@app.route("/drug/<name>", methods=["GET"])
-def get_drug_info(name: str):
+@app.get("/drug/{name}")
+async def get_drug_info(name: str):
     """Get full information for a specific drug."""
     drug = normalize_drug_name(name)
     if drug not in drug_knowledge:
-        return jsonify({"error": f"Drug '{name}' not found in database"}), 404
+        raise HTTPException(status_code=404, detail=f"Drug '{name}' not found in database")
 
     info = drug_knowledge[drug]
-    return jsonify({
+    return {
         "drug": drug,
         "side_effects": info.get("side_effects", []),
         "severity_score": info.get("severity_score"),
         "serious_event_rate": info.get("serious_event_rate"),
         "interactions": info.get("interactions", [])
-    })
+    }
 
 
-# Error handlers
-@app.errorhandler(404)
-def not_found(e):
-    return jsonify({"error": "Endpoint not found"}), 404
+@app.get("/symptoms/search")
+async def search_by_symptom(q: str = Query(..., min_length=2)):
+    """Search for drugs based on symptoms."""
+    query = q.lower().strip()
+    
+    # Try exact match first
+    if query in symptoms_mapping:
+        return symptoms_mapping[query]
+        
+    # Partial match
+    matches = []
+    for symptom, data in symptoms_mapping.items():
+        if query in symptom:
+            matches.append({"symptom": symptom, **data})
+            
+    if matches:
+        # Return the best match
+        return matches[0]
+        
+    raise HTTPException(status_code=404, detail=f"No medications found for symptom '{q}'. Please try another symptom like 'headache', 'fever', or 'pain'.")
 
 
-@app.errorhandler(500)
-def server_error(e):
-    return jsonify({"error": "Internal server error"}), 500
+@app.post("/chat", response_model=ChatResponse)
+async def chat_with_bot(request: ChatRequest):
+    """Handle customer interactions via chatbot."""
+    msg = request.message.lower().strip()
+    
+    # Basic rule-based chatbot logic
+    if re.search(r"hello|hi|hey|help", msg):
+        return ChatResponse(response="Hello! I'm the MedSafe AI assistant. I can help you understand medicine side effects, check for interactions, or find medicines for specific symptoms. What can I help you with today?")
+        
+    if re.search(r"what is (\w+)", msg):
+        match = re.search(r"what is ([\w\s]+)", msg)
+        if match:
+            drug = normalize_drug_name(match.group(1).split("?")[0].strip())
+            if drug in drug_knowledge:
+                se = ", ".join(drug_knowledge[drug].get("side_effects", [])[:3])
+                return ChatResponse(response=f"{drug.title()} is a medication in our database. Some common side effects include: {se}. Would you like me to analyze its safety profile?")
+    
+    if re.search(r"headache|fever|pain|allergies|cough|nausea", msg):
+        return ChatResponse(response="It sounds like you're experiencing some symptoms. I recommend using the 'Search by Symptom' feature on our main page to get specific medication recommendations and doctor consultation advice.")
+        
+    if "interaction" in msg or "safe" in msg:
+        return ChatResponse(response="To check if medications are safe to take together, please enter them in the analysis tool on the main page. I'll use our AI model to check for interactions and predict the overall risk.")
+        
+    # Fallback response
+    return ChatResponse(response="I'm a medical AI assistant. You can ask me about specific medicines, symptoms, or use our main tool to analyze drug interactions. Always consult a real doctor for medical advice.")
 
 
 if __name__ == "__main__":
-    print("Loading resources...")
-    load_resources()
-    print("\n🚀 Starting Flask server on http://0.0.0.0:8000")
-    app.run(host="0.0.0.0", port=8000, debug=False)
+    import uvicorn
+    print("🚀 Starting FastAPI server on http://0.0.0.0:8000")
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

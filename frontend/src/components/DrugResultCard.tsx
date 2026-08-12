@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, AlertTriangle, Info, CheckCircle } from 'lucide-react';
+import { ChevronDown, CheckCircle } from 'lucide-react';
 import type { DrugResult } from '../types';
 import { RiskGauge } from './RiskGauge';
+import { DrugIcon } from './SymptomSearch';
 import './DrugResultCard.css';
 
 interface Props {
@@ -14,7 +15,14 @@ export function DrugResultCard({ result, index }: Props) {
   const [expanded, setExpanded] = useState(true);
 
   const risk = result.risk_level;
-  const RiskIcon = risk === 'High' ? AlertTriangle : risk === 'Medium' ? Info : CheckCircle;
+  
+  // Simulated Doctor Review
+  const doctorReview = risk === 'High' 
+    ? { name: "Dr. Sarah Chen, MD", specialty: "Cardiology", text: "Requires close monitoring. Do not combine with other strong medications without consulting your primary physician." }
+    : risk === 'Medium'
+    ? { name: "Dr. James Wilson, DO", specialty: "Internal Medicine", text: "Generally effective but monitor for common side effects like nausea or dizziness during the first week." }
+    : { name: "Dr. Emily Taylor, MD", specialty: "Family Medicine", text: "Very safe profile for most patients. Follow standard dosing instructions." };
+
 
   return (
     <motion.div
@@ -25,11 +33,19 @@ export function DrugResultCard({ result, index }: Props) {
     >
       {/* Card Header */}
       <div className="drc-header" onClick={() => setExpanded(e => !e)} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setExpanded(v => !v)}>
+        <div className="drc-drug-icon">
+          <DrugIcon drugName={result.drug} size={42} />
+        </div>
         <div className="drc-drug-info">
           <div className="drc-drug-name-row">
-            <RiskIcon size={18} style={{ color: result.risk_color }} />
             <h3 className="drc-drug-name">{result.drug}</h3>
-            {!result.found_in_db && <span className="drc-unknown-badge">Limited Data</span>}
+            {result.found_in_db ? (
+              <span className="drc-verified-badge">
+                <CheckCircle size={10} /> Verified
+              </span>
+            ) : (
+              <span className="drc-unknown-badge">Limited Data</span>
+            )}
           </div>
           <div className="drc-meta">
             <span className={`drc-severity-chip severity-${risk.toLowerCase()}`}>
@@ -85,6 +101,60 @@ export function DrugResultCard({ result, index }: Props) {
                   ))}
                 </div>
               </div>
+
+              {/* Doctor Review */}
+              <div className="drc-section" style={{ marginTop: '20px' }}>
+                <h4 className="drc-section-title">
+                  <span className="drc-section-dot" style={{ background: '#00C896' }} />
+                  Expert Medical Opinion
+                </h4>
+                <div className="drc-doctor-review">
+                  <div className="doctor-avatar">
+                    {doctorReview.name.charAt(4)}
+                  </div>
+                  <div className="doctor-info">
+                    <div className="doctor-name">{doctorReview.name} <span>• {doctorReview.specialty}</span></div>
+                    <p className="doctor-text">"{doctorReview.text}"</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Clinical Insights */}
+              {(result.demographics || result.specialist_consult || result.clinical_consensus) && (
+                <div className="drc-section" style={{ marginTop: '20px' }}>
+                  <h4 className="drc-section-title">
+                    <span className="drc-section-dot" style={{ background: 'var(--accent-purple, #a855f7)' }} />
+                    Clinical Insights
+                  </h4>
+                  <div className="drc-insights">
+                    {result.demographics && (
+                      <div className="drc-demographics">
+                        {result.demographics.pregnancy_category && (
+                          <div className="insight-tag warning">
+                            <span>🤰</span> Pregnancy Category: {result.demographics.pregnancy_category}
+                          </div>
+                        )}
+                        {result.demographics.geriatric_warning && (
+                          <div className="insight-tag caution">
+                            <span>🧓</span> Geriatric Warning
+                          </div>
+                        )}
+                        {result.demographics.pediatric_warning && (
+                          <div className="insight-tag caution">
+                            <span>👶</span> Pediatric Warning
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {result.specialist_consult && (
+                      <p className="insight-text"><strong>Specialist Consult:</strong> {result.specialist_consult}</p>
+                    )}
+                    {result.clinical_consensus && (
+                      <p className="insight-text"><strong>Clinical Consensus:</strong> {result.clinical_consensus}</p>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

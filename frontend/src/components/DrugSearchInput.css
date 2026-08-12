@@ -7,22 +7,22 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 58px;
-  padding: 10px 16px;
-  background: rgba(20, 27, 45, 0.9);
+  min-height: 52px;
+  padding: 8px 14px;
+  background: var(--bg-card);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-md);
   transition: all var(--transition-base);
   position: relative;
 }
 
 .drug-search-input-box.focused {
-  border-color: rgba(99, 162, 255, 0.5);
-  box-shadow: 0 0 0 3px rgba(99, 162, 255, 0.1), var(--shadow-glow-blue);
+  border-color: var(--border-accent);
+  background: var(--bg-card-hover);
 }
 
 .search-icon-wrap {
-  color: var(--accent-blue);
+  color: var(--text-muted);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -40,13 +40,13 @@
 .drug-chip {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  background: rgba(99, 162, 255, 0.15);
-  border: 1px solid rgba(99, 162, 255, 0.3);
-  border-radius: var(--radius-full);
-  color: var(--accent-blue);
-  font-size: 13px;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
   animation: fadeIn 0.2s ease-out;
@@ -59,29 +59,27 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--accent-blue);
-  opacity: 0.6;
+  color: var(--text-muted);
   padding: 1px;
   border-radius: 50%;
   transition: all var(--transition-fast);
 }
 
 .chip-remove:hover {
-  opacity: 1;
-  background: rgba(255, 71, 87, 0.2);
+  background: rgba(239, 68, 68, 0.15);
   color: var(--risk-high);
 }
 
 .drug-text-input {
   flex: 1;
-  min-width: 200px;
+  min-width: 160px;
   background: none;
   border: none;
   outline: none;
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-primary);
-  caret-color: var(--accent-blue);
+  caret-color: var(--text-primary);
 }
 
 .drug-text-input::placeholder {
@@ -97,20 +95,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-default);
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
   border-radius: 50%;
   cursor: pointer;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   transition: all var(--transition-fast);
 }
 
 .clear-input-btn:hover {
-  background: var(--risk-high-bg);
-  color: var(--risk-high);
-  border-color: var(--risk-high-border);
+  color: var(--text-primary);
 }
 
 /* Dropdown */
@@ -121,8 +117,8 @@
   right: 0;
   background: var(--bg-card);
   border: 1px solid var(--border-accent);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(99, 162, 255, 0.1);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
   z-index: 100;
   animation: fadeInUp 0.15s ease-out;
@@ -133,41 +129,42 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  padding: 12px 16px;
+  padding: 10px 14px;
   background: none;
   border: none;
   border-bottom: 1px solid var(--border-default);
   cursor: pointer;
   text-align: left;
   transition: background var(--transition-fast);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .suggestion-item:last-child { border-bottom: none; }
 
 .suggestion-item:hover,
 .suggestion-item.active {
-  background: rgba(99, 162, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
 }
 
 .suggestion-icon { color: var(--text-muted); flex-shrink: 0; }
 .suggestion-name { flex: 1; text-transform: capitalize; }
-.suggestion-name mark { background: rgba(99, 162, 255, 0.25); color: var(--accent-blue); border-radius: 2px; padding: 0 2px; }
-.suggestion-add { color: var(--accent-blue); opacity: 0; transition: opacity var(--transition-fast); }
+.suggestion-name mark { background: rgba(255, 255, 255, 0.15); color: var(--text-primary); border-radius: 2px; padding: 0 2px; font-weight: 600;}
+.suggestion-add { color: var(--text-muted); opacity: 0; transition: opacity var(--transition-fast); }
 .suggestion-item:hover .suggestion-add,
-.suggestion-item.active .suggestion-add { opacity: 1; }
+.suggestion-item.active .suggestion-add { opacity: 1; color: var(--text-primary); }
 
 /* Hint text */
 .drug-count-hint {
-  margin-top: 10px;
-  font-size: 12px;
+  margin-top: 8px;
+  font-size: 11px;
   color: var(--text-muted);
   padding-left: 4px;
 }
 
 @media (max-width: 600px) {
-  .drug-text-input { min-width: 140px; font-size: 14px; }
-  .drug-search-input-box { min-height: 52px; padding: 8px 12px; }
+  .drug-text-input { min-width: 120px; font-size: 13px; }
+  .drug-search-input-box { min-height: 48px; padding: 6px 10px; }
 }

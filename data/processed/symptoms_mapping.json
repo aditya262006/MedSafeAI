@@ -1,0 +1,152 @@
+{
+  "headache": {
+    "drugs": ["aspirin", "ibuprofen", "acetaminophen", "naproxen", "sumatriptan"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Over-the-counter pain relievers are usually effective. See a doctor if headaches are frequent or severe."
+  },
+  "fever": {
+    "drugs": ["acetaminophen", "ibuprofen", "aspirin", "naproxen"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Rest, stay hydrated, and use antipyretics. Seek medical attention if fever exceeds 103°F (39.4°C) or persists more than 3 days."
+  },
+  "allergies": {
+    "drugs": ["cetirizine", "loratadine", "fexofenadine", "diphenhydramine", "chlorpheniramine"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Antihistamines can relieve most allergy symptoms. Consult an allergist for chronic or severe allergies."
+  },
+  "pain": {
+    "drugs": ["ibuprofen", "acetaminophen", "naproxen", "aspirin", "tramadol", "gabapentin"],
+    "severity": "moderate",
+    "consult_doctor": true,
+    "advice": "Start with OTC pain relievers. If pain is severe or chronic, consult a doctor before using stronger medications."
+  },
+  "anxiety": {
+    "drugs": ["sertraline", "fluoxetine", "escitalopram", "buspirone", "hydroxyzine"],
+    "severity": "moderate",
+    "consult_doctor": true,
+    "advice": "⚠️ Prescription required. Please consult a psychiatrist or your primary care physician for proper diagnosis and treatment."
+  },
+  "depression": {
+    "drugs": ["sertraline", "fluoxetine", "escitalopram", "venlafaxine", "bupropion"],
+    "severity": "serious",
+    "consult_doctor": true,
+    "advice": "⚠️ Prescription required. Depression requires professional evaluation. Please reach out to a mental health professional."
+  },
+  "high blood pressure": {
+    "drugs": ["lisinopril", "amlodipine", "losartan", "metoprolol", "hydrochlorothiazide"],
+    "severity": "serious",
+    "consult_doctor": true,
+    "advice": "⚠️ Requires medical supervision. Blood pressure medications must be prescribed and monitored by a physician."
+  },
+  "diabetes": {
+    "drugs": ["metformin", "glipizide", "sitagliptin", "pioglitazone"],
+    "severity": "serious",
+    "consult_doctor": true,
+    "advice": "⚠️ Requires medical supervision. Diabetes management requires regular monitoring and physician guidance."
+  },
+  "inflammation": {
+    "drugs": ["ibuprofen", "naproxen", "prednisone", "aspirin", "meloxicam"],
+    "severity": "moderate",
+    "consult_doctor": false,
+    "advice": "NSAIDs are effective for mild inflammation. For chronic conditions, consult a doctor about long-term treatment."
+  },
+  "infection": {
+    "drugs": ["amoxicillin", "azithromycin", "ciprofloxacin", "doxycycline", "metronidazole"],
+    "severity": "serious",
+    "consult_doctor": true,
+    "advice": "⚠️ Prescription required. Antibiotics must be prescribed by a doctor after proper diagnosis. Never self-medicate with antibiotics."
+  },
+  "insomnia": {
+    "drugs": ["melatonin", "diphenhydramine", "hydroxyzine", "zolpidem", "trazodone"],
+    "severity": "moderate",
+    "consult_doctor": true,
+    "advice": "Try sleep hygiene first. OTC melatonin may help. For persistent insomnia, consult a sleep specialist."
+  },
+  "nausea": {
+    "drugs": ["ondansetron", "metoclopramide", "promethazine", "diphenhydramine"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Stay hydrated and eat bland foods. If nausea persists or is accompanied by vomiting, consult a physician."
+  },
+  "acid reflux": {
+    "drugs": ["omeprazole", "ranitidine", "famotidine", "esomeprazole", "pantoprazole"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Proton pump inhibitors and H2 blockers are effective. Avoid trigger foods. See a doctor if symptoms persist beyond 2 weeks."
+  },
+  "asthma": {
+    "drugs": ["albuterol", "fluticasone", "montelukast", "budesonide", "ipratropium"],
+    "severity": "serious",
+    "consult_doctor": true,
+    "advice": "⚠️ Requires medical supervision. Asthma requires a proper treatment plan from a pulmonologist or allergist."
+  },
+  "cholesterol": {
+    "drugs": ["atorvastatin", "rosuvastatin", "simvastatin", "pravastatin", "ezetimibe"],
+    "severity": "serious",
+    "consult_doctor": true,
+    "advice": "⚠️ Prescription required. Statins must be prescribed by a physician with regular liver function monitoring."
+  },
+  "seizures": {
+    "drugs": ["levetiracetam", "valproic acid", "carbamazepine", "lamotrigine", "phenytoin"],
+    "severity": "serious",
+    "consult_doctor": true,
+    "advice": "⚠️ CRITICAL: Seizure medications require neurologist supervision. Never stop or change dosage without medical guidance."
+  },
+  "blood clots": {
+    "drugs": ["warfarin", "rivaroxaban", "apixaban", "heparin", "clopidogrel"],
+    "severity": "serious",
+    "consult_doctor": true,
+    "advice": "⚠️ CRITICAL: Anticoagulants require careful dosing and monitoring. Regular blood tests are essential."
+  },
+  "muscle pain": {
+    "drugs": ["ibuprofen", "naproxen", "cyclobenzaprine", "methocarbamol", "acetaminophen"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Rest, ice, and OTC pain relievers. If pain persists beyond a week, consult a healthcare provider."
+  },
+  "cough": {
+    "drugs": ["dextromethorphan", "guaifenesin", "codeine", "benzonatate"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Stay hydrated and rest. OTC cough suppressants can help. See a doctor if cough persists more than 2 weeks."
+  },
+  "thyroid": {
+    "drugs": ["levothyroxine", "methimazole", "propylthiouracil"],
+    "severity": "serious",
+    "consult_doctor": true,
+    "advice": "⚠️ Requires medical supervision. Thyroid medications require regular blood tests and endocrinologist monitoring."
+  },
+  "skin rash": {
+    "drugs": ["hydrocortisone", "diphenhydramine", "cetirizine", "prednisone", "hydroxyzine"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Mild rashes can be treated with OTC antihistamines and topical creams. See a dermatologist for persistent or spreading rashes."
+  },
+  "stomach pain": {
+    "drugs": ["omeprazole", "famotidine", "antacids", "acetaminophen", "hyoscyamine"],
+    "severity": "moderate",
+    "consult_doctor": true,
+    "advice": "Antacids may help. Avoid NSAIDs if you have stomach issues. Consult a doctor for severe or recurring pain."
+  },
+  "joint pain": {
+    "drugs": ["ibuprofen", "naproxen", "meloxicam", "celecoxib", "acetaminophen"],
+    "severity": "moderate",
+    "consult_doctor": false,
+    "advice": "NSAIDs can reduce inflammation and pain. For chronic joint issues, consult a rheumatologist."
+  },
+  "constipation": {
+    "drugs": ["polyethylene glycol", "bisacodyl", "docusate", "psyllium", "lactulose"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Increase fiber intake and water. OTC laxatives can provide relief. See a doctor if constipation is chronic."
+  },
+  "diarrhea": {
+    "drugs": ["loperamide", "bismuth subsalicylate", "diphenoxylate"],
+    "severity": "mild",
+    "consult_doctor": false,
+    "advice": "Stay hydrated with electrolyte solutions. OTC anti-diarrheal medications can help. See a doctor if it persists beyond 2 days."
+  }
+}

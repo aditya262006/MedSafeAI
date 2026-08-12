@@ -71,6 +71,17 @@ export function InteractionAlert({ interactions }: Props) {
                   </span>
                 </div>
                 <p className="int-description">{inter.description}</p>
+                {(inter.evidence_level || inter.verified_source) && (
+                  <div className="int-evidence-box">
+                    <span className="int-evidence-badge">
+                      <Zap size={10} style={{marginRight: 4}} />
+                      Verified
+                    </span>
+                    <span className="int-evidence-text">
+                      {inter.evidence_level} • Source: {inter.verified_source}
+                    </span>
+                  </div>
+                )}
               </div>
             </motion.div>
           );

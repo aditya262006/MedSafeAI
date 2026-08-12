@@ -9,8 +9,10 @@ import { DrugSearchInput } from './components/DrugSearchInput';
 import { DrugResultCard } from './components/DrugResultCard';
 import { RiskGauge } from './components/RiskGauge';
 import { InteractionAlert } from './components/InteractionAlert';
-import { ShapExplanation } from './components/ShapExplanation';
+import { RiskFactorPanel } from './components/RiskFactorPanel';
 import { HistoryPanel, type HistoryEntry } from './components/HistoryPanel';
+import { SymptomSearch } from './components/SymptomSearch';
+import { Chatbot } from './components/Chatbot';
 import { predictRisk } from './api';
 import type { PredictResponse } from './types';
 import './App.css';
@@ -27,6 +29,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState<PredictResponse | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [searchMode, setSearchMode] = useState<'medicine' | 'symptom'>('medicine');
 
   const handleAddDrug = useCallback((drug: string) => {
     setSelectedDrugs(prev => {
@@ -162,54 +165,81 @@ function App() {
 
             <p className="hero-subtitle">
               Enter one or more medicines to instantly get AI-predicted risk levels,
-              drug interaction warnings, and explainable ML insights powered by XGBoost + SHAP.
+              drug interaction warnings, and clinical insights powered by Neural Network analysis.
             </p>
+
+            {/* Search Mode Toggle */}
+            <div className="search-mode-toggle">
+              <button 
+                className={`smt-btn ${searchMode === 'medicine' ? 'active' : ''}`}
+                onClick={() => setSearchMode('medicine')}
+              >
+                Search by Medicine
+              </button>
+              <button 
+                className={`smt-btn ${searchMode === 'symptom' ? 'active' : ''}`}
+                onClick={() => setSearchMode('symptom')}
+              >
+                Search by Symptom
+              </button>
+            </div>
 
             {/* Search Box */}
             <div className="search-section">
-              <DrugSearchInput
-                selectedDrugs={selectedDrugs}
-                onAdd={handleAddDrug}
-                onRemove={handleRemoveDrug}
-                isLoading={isLoading}
-              />
+              {searchMode === 'medicine' ? (
+                <>
+                  <DrugSearchInput
+                    selectedDrugs={selectedDrugs}
+                    onAdd={handleAddDrug}
+                    onRemove={handleRemoveDrug}
+                    isLoading={isLoading}
+                  />
 
-              <div className="search-actions">
-                <button
-                  id="analyze-btn"
-                  className="btn btn-primary analyze-btn"
-                  onClick={handleAnalyze}
-                  disabled={isLoading || selectedDrugs.length === 0}
-                >
-                  {isLoading ? (
-                    <><Loader2 size={16} className="spin" /> Analyzing...</>
-                  ) : (
-                    <>Analyze Risk <ArrowRight size={16} /></>
-                  )}
-                </button>
+                  <div className="search-actions">
+                    <button
+                      id="analyze-btn"
+                      className="btn btn-primary analyze-btn"
+                      onClick={handleAnalyze}
+                      disabled={isLoading || selectedDrugs.length === 0}
+                    >
+                      {isLoading ? (
+                        <><Loader2 size={16} className="spin" /> Analyzing...</>
+                      ) : (
+                        <>Analyze Risk <ArrowRight size={16} /></>
+                      )}
+                    </button>
 
-                {(selectedDrugs.length > 0 || response) && (
-                  <button className="btn btn-secondary reset-btn" onClick={handleReset}>
-                    <RotateCcw size={14} />
-                    Reset
-                  </button>
-                )}
-              </div>
+                    {(selectedDrugs.length > 0 || response) && (
+                      <button className="btn btn-secondary reset-btn" onClick={handleReset}>
+                        <RotateCcw size={14} />
+                        Reset
+                      </button>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <SymptomSearch onSelectDrug={(drug) => {
+                  handleAddDrug(drug);
+                  setSearchMode('medicine');
+                }} />
+              )}
             </div>
 
             {/* Example combos */}
-            <div className="examples-row">
-              <span className="examples-label">Try:</span>
-              {EXAMPLE_COMBOS.map(ex => (
-                <button
-                  key={ex.label}
-                  className={`example-pill risk-pill-${ex.risk.toLowerCase()}`}
-                  onClick={() => handleExampleClick(ex.drugs)}
-                >
-                  {ex.label}
-                </button>
-              ))}
-            </div>
+            {searchMode === 'medicine' && (
+              <div className="examples-row">
+                <span className="examples-label">Try:</span>
+                {EXAMPLE_COMBOS.map(ex => (
+                  <button
+                    key={ex.label}
+                    className={`example-pill risk-pill-${ex.risk.toLowerCase()}`}
+                    onClick={() => handleExampleClick(ex.drugs)}
+                  >
+                    {ex.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           {/* Hero Stats */}
@@ -220,10 +250,10 @@ function App() {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             {[
-              { value: '149+', label: 'Medicines', icon: '💊' },
-              { value: '51', label: 'Interactions', icon: '⚠️' },
-              { value: '98%', label: 'ML Accuracy', icon: '🎯' },
-              { value: 'SHAP', label: 'Explainable AI', icon: '🧠' },
+              { value: '157+', label: 'Medicines', icon: '💊' },
+              { value: '74', label: 'Interactions', icon: '⚠️' },
+              { value: 'Neural Net', label: 'AI Engine', icon: '🧠' },
+              { value: '6', label: 'Risk Factors', icon: '📊' },
             ].map(stat => (
               <div key={stat.label} className="hero-stat">
                 <span className="hero-stat-icon">{stat.icon}</span>
@@ -273,6 +303,11 @@ function App() {
                   <p className="crb-summary" dangerouslySetInnerHTML={{
                     __html: response.summary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                   }} />
+                  {response.consultation_suggestion && (
+                    <div className={`crb-consultation crb-consultation-${combined?.toLowerCase()}`}>
+                      <p>{response.consultation_suggestion}</p>
+                    </div>
+                  )}
                   {response.interactions.length > 0 && (
                     <span className="crb-interaction-warn">
                       <AlertTriangle size={13} />
@@ -303,10 +338,10 @@ function App() {
                   )}
                 </div>
 
-                {/* Right column: AI Explanation */}
+                {/* Right column: Risk Factor Analysis */}
                 <div className="results-right">
-                  <h2 className="section-heading">AI Explanation</h2>
-                  <ShapExplanation results={response.results} />
+                  <h2 className="section-heading">Risk Factor Analysis</h2>
+                  <RiskFactorPanel results={response.results} />
 
                   {/* How it works */}
                   <div className="how-it-works">
@@ -315,8 +350,8 @@ function App() {
                       {[
                         { icon: '🔍', step: 'Input', desc: 'You enter medicine names' },
                         { icon: '📊', step: 'Features', desc: 'Side effects, severity & interactions extracted' },
-                        { icon: '🤖', step: 'XGBoost', desc: 'ML model predicts risk class' },
-                        { icon: '🧠', step: 'SHAP', desc: 'Explains which factors drove the prediction' },
+                        { icon: '🧠', step: 'Neural Net', desc: 'MLP model predicts risk class' },
+                        { icon: '📋', step: 'Analysis', desc: 'Clinical factors that influenced the prediction' },
                       ].map((s, i) => (
                         <div key={s.step} className="hiw-step">
                           <span className="hiw-step-icon">{s.icon}</span>
@@ -354,10 +389,13 @@ function App() {
             <span>·</span>
             <span>Dataset: OpenFDA + SIDER (Public Domain)</span>
             <span>·</span>
-            <span>Model: XGBoost + SHAP</span>
+            <span>Model: Neural Network (MLP)</span>
           </div>
         </div>
       </footer>
+      
+      {/* Floating Chatbot */}
+      <Chatbot />
     </div>
   );
 }
